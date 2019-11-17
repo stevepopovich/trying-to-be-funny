@@ -3,4 +3,7 @@
     <string name="do_you_want_to_save">Do you want to save?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="add_bits">Add Bits</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
 </resources>
