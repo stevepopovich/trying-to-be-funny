@@ -9,7 +9,7 @@ import com.stevenpopovich.trying_to_be_funny.R
 import kotlinx.android.synthetic.main.do_you_want_to_save.*
 
 class WouldYouLikeToSaveFragment : Fragment() {
-    private val nextFragment = AddTagsFragment()
+    private val nextFragment = AddBitsFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
