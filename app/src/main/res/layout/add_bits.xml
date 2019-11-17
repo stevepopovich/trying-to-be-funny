@@ -7,12 +7,12 @@
 
     <ImageButton
         android:id="@+id/add_bit_button"
-        android:layout_width="48dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/next_button"
         app:layout_constraintStart_toEndOf="@+id/add_bits_input"
-        app:srcCompat="@drawable/ic_arrow_upward_black_24dp"
+        app:srcCompat="@drawable/ic_add_black_24dp"
         style="@style/Widget.AppCompat.Button.Borderless" />
 
     <Button
@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
