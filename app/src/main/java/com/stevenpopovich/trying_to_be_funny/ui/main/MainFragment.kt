@@ -19,8 +19,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.stevenpopovich.trying_to_be_funny.R
 import kotlinx.android.synthetic.main.main_fragment.*
 
-
-
 class MainFragment : Fragment() {
 
     private lateinit var mediaRecorder: MediaRecorder
@@ -126,7 +124,7 @@ class MainFragment : Fragment() {
         ft.addToBackStack(null)
 
         val dialogFragment = OnFinishRecordingFragment()
-        dialogFragment.show(fragmentManager, "dialog")
+        dialogFragment.show(fragmentManager!!, "dialog")
         if (state) {
             mediaRecorder.stop()
             mediaRecorder.release()

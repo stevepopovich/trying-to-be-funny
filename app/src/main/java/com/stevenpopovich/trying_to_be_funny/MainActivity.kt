@@ -6,7 +6,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.libraries.places.api.Places
 import com.stevenpopovich.trying_to_be_funny.ui.main.MainFragment
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +35,10 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
             ActivityCompat.requestPermissions(this, permissions, 0)
+        }
+
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, getString(R.string.google_places_api_key), Locale.US);
         }
     }
 }

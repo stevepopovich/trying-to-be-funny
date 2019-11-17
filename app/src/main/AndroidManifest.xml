@@ -7,7 +7,7 @@
 
     <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCunyv77YHrZ_JvA_aPocqWlplnZCNUkKI"/>
+        android:value="@strings/google_places_api_key"/>
 
     <application
         android:allowBackup="true"
