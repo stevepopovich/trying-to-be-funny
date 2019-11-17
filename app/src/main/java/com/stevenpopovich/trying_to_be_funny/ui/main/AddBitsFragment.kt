@@ -6,18 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
+import com.stevenpopovich.trying_to_be_funny.R
 import kotlinx.android.synthetic.main.add_bits.*
 
-
-
-
 class AddBitsFragment : Fragment() {
+    private val nextFragment = AddLocationFragment()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(com.stevenpopovich.trying_to_be_funny.R.layout.add_bits, container, false)
+        return inflater.inflate(R.layout.add_bits, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,5 +34,19 @@ class AddBitsFragment : Fragment() {
             add_bits_input.text.clear()
         }
 
+        next_button.setOnClickListener {
+            val transaction = fragmentManager!!.beginTransaction()
+            transaction.setCustomAnimations(
+                R.anim.enter_from_right,
+                R.anim.exit_to_left,
+                R.anim.enter_from_left,
+                R.anim.exit_to_right
+            )
+            transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
+        }
+
+        cancel_button.setOnClickListener {
+            // TODO ask are you sure and then close the modal
+        }
     }
 }
