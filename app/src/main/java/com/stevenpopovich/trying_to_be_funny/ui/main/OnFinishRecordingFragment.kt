@@ -29,17 +29,5 @@ class OnFinishRecordingFragment : DialogFragment() {
             R.anim.exit_to_right
         )
         transaction.replace(R.id.on_finished_recording_container, childFragment).commit()
-
-//        val transaction = fragmentManager!!.beginTransaction()
-//        transaction.setCustomAnimations(
-//            R.anim.enter_from_right,
-//            R.anim.exit_to_left,
-//            R.anim.enter_from_left,
-//            R.anim.exit_to_right
-//        )
-//        val addTagsFragment = AddBitsFragment()
-//        transaction.replace(R.id.on_finished_recording_container, addTagsFragment)
-//        transaction.addToBackStack(null)
-//        transaction.commit()
     }
 }

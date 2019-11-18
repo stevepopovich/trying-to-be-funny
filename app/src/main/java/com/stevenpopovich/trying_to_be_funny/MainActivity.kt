@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.libraries.places.api.Places
-import com.stevenpopovich.trying_to_be_funny.ui.main.MainFragment
+import com.stevenpopovich.trying_to_be_funny.ui.main.RecorderFragment
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, RecorderFragment.newInstance())
                 .commitNow()
         }
 

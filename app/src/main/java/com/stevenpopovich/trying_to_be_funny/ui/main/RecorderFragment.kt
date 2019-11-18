@@ -15,22 +15,19 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.stevenpopovich.trying_to_be_funny.R
 import kotlinx.android.synthetic.main.main_fragment.*
 
-class MainFragment : Fragment() {
+class RecorderFragment : Fragment() {
 
     private lateinit var mediaRecorder: MediaRecorder
     private var output: String = ""
-    private var state: Boolean = false
-    private var recordingStopped: Boolean = false
+    private var isRecording: Boolean = false
+    private var recordingPaused: Boolean = false
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = RecorderFragment()
     }
-
-    private lateinit var viewModel: MainViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,25 +79,6 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        if (ContextCompat.checkSelfPermission(
-                activity!!.applicationContext,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                activity!!.applicationContext,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            val permissions = arrayOf(
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            ActivityCompat.requestPermissions(activity!!, permissions, 0)
-        }
-    }
-
     private fun startRecording() {
         stopRecording()
         mediaRecorder = MediaRecorder()
@@ -110,40 +88,34 @@ class MainFragment : Fragment() {
         mediaRecorder.setOutputFile(output)
         mediaRecorder.prepare()
         mediaRecorder.start()
-        state = true
-        if (activity != null)
-            Toast.makeText(activity!!.applicationContext, "Recording started!", Toast.LENGTH_SHORT).show()
+        isRecording = true
     }
 
     private fun stopRecording() {
-        val ft = fragmentManager!!.beginTransaction()
-        val prev = fragmentManager!!.findFragmentByTag("dialog")
-        if (prev != null) {
-            ft.remove(prev)
-        }
-        ft.addToBackStack(null)
-
-        val dialogFragment = OnFinishRecordingFragment()
-        dialogFragment.show(fragmentManager!!, "dialog")
-        if (state) {
+        if (isRecording) {
             mediaRecorder.stop()
             mediaRecorder.release()
-            state = false
-        } else {
-            if (activity != null)
-                Toast.makeText(activity!!.applicationContext, "You are not recording right now!", Toast.LENGTH_SHORT).show()
+            isRecording = false
+
+            val ft = fragmentManager!!.beginTransaction()
+            val prev = fragmentManager!!.findFragmentByTag("dialog")
+            if (prev != null) {
+                ft.remove(prev)
+            }
+            ft.addToBackStack(null)
+
+            val dialogFragment = OnFinishRecordingFragment()
+            dialogFragment.show(fragmentManager!!, "dialog")
         }
     }
 
     @SuppressLint("RestrictedApi", "SetTextI18n")
     @TargetApi(Build.VERSION_CODES.N)
     private fun pauseRecording() {
-        if (state) {
-            if (!recordingStopped) {
-                if (activity != null)
-                    Toast.makeText(activity!!.applicationContext, "Stopped!", Toast.LENGTH_SHORT).show()
+        if (isRecording) {
+            if (!recordingPaused) {
                 mediaRecorder.pause()
-                recordingStopped = true
+                recordingPaused = true
                 button_pause_recording.text = "Resume"
             } else {
                 resumeRecording()
@@ -155,9 +127,7 @@ class MainFragment : Fragment() {
     @TargetApi(Build.VERSION_CODES.N)
     private fun resumeRecording() {
         mediaRecorder.resume()
-        if (activity != null)
-            Toast.makeText(activity!!.applicationContext, "Resume!", Toast.LENGTH_SHORT).show()
         button_pause_recording.text = "Pause"
-        recordingStopped = false
+        recordingPaused = false
     }
 }
