@@ -4,14 +4,13 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,8 +19,7 @@ import kotlinx.android.synthetic.main.main_fragment.*
 
 class RecorderFragment : Fragment() {
 
-    private lateinit var mediaRecorder: MediaRecorder
-    private var output: String = ""
+    private var mediaRecorder = MediaRecorder()
     private var isRecording: Boolean = false
     private var recordingPaused: Boolean = false
 
@@ -66,27 +64,13 @@ class RecorderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        output = Environment.getExternalStorageDirectory().absolutePath + "/recording.mp3"
-        mediaRecorder = MediaRecorder()
-
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        mediaRecorder.setOutputFile(output)
-
-        mediaRecorder.prepare()
+        setUpRecorder()
 
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
     private fun startRecording() {
-        stopRecording()
-        mediaRecorder = MediaRecorder()
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        mediaRecorder.setOutputFile(output)
-        mediaRecorder.prepare()
+        setUpRecorder()
         mediaRecorder.start()
         isRecording = true
     }
@@ -106,6 +90,11 @@ class RecorderFragment : Fragment() {
 
             val dialogFragment = OnFinishRecordingFragment()
             dialogFragment.show(fragmentManager!!, "dialog")
+
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/recorder.m4a")
+            mediaPlayer.prepare()
+            mediaPlayer.start()
         }
     }
 
@@ -129,5 +118,18 @@ class RecorderFragment : Fragment() {
         mediaRecorder.resume()
         button_pause_recording.text = "Pause"
         recordingPaused = false
+    }
+
+    private fun setUpRecorder() {
+        mediaRecorder = MediaRecorder()
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        mediaRecorder.setOutputFile(
+            "${context!!.externalCacheDir?.absolutePath}/recorder.m4a"
+            //context!!.getExternalFilesDir(null)!!.absolutePath + "/recording2.m4a"
+            //Environment.getExternalStorageDirectory().absolutePath + "/recording1.m4a"
+        )
+        mediaRecorder.prepare()
     }
 }
