@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/or_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/or"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toBottomOf="@+id/places_autocomplete" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/location_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_a_location"
@@ -32,15 +32,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/location_header"
         app:pacv_googleMapsApiKey="@string/google_places_api_key" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/no_location_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_location_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/or_label" />
 </androidx.constraintlayout.widget.ConstraintLayout>
