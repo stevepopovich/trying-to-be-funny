@@ -10,15 +10,19 @@ interface SetService {
         var setRecordingPath: RecordingPath? = null
     }
 
-    fun saveSet()
+    fun saveStaticSet()
     fun clearStaticSet()
     fun getSet(recordingPath: RecordingPath): Set
     fun querySets(date: Date?, jokes: List<Joke>?, location: Place?)
-
+    fun deleteSet(setId: SetId)
 }
 
-class SetServiceImpl: SetService {
-    override fun saveSet() {
+/**
+ * This is class is responsible for managing Set data, but not the actual recording audio.
+ * A "Set" contains the path to the actual audio, respective to the implementation type
+ */
+class SetServiceLocalSavingImpl: SetService {
+    override fun saveStaticSet() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -37,4 +41,7 @@ class SetServiceImpl: SetService {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun deleteSet(setId: SetId) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

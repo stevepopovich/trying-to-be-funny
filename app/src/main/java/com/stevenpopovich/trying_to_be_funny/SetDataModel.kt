@@ -8,7 +8,10 @@ typealias Place = com.seatgeek.placesautocomplete.model.Place
 
 typealias RecordingPath = String
 
+typealias SetId = UUID
+
 data class Set(
+    val id: SetId,
     val jokes: List<Joke>,
     val location: Place,
     val date: Date,
