@@ -27,7 +27,7 @@ class WouldYouLikeToSaveFragment : Fragment() {
         }
 
         no_I_dont_want_to_save.setOnClickListener {
-            transitionToNextFragment()
+
         }
     }
 
