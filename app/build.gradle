@@ -17,6 +17,14 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                    "room.schemaLocation":"$projectDir/schemas".toString(),
+                    "room.incremental":"true",
+                    "room.expandProjection":"true"]
+            }
+        }
     }
     buildTypes {
         release {
@@ -29,6 +37,8 @@ android {
 repositories {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
+
+def room_version = "2.2.2"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -44,7 +54,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.google.android.libraries.places:places:2.1.0'
     implementation 'com.seatgeek:placesautocomplete:0.3-SNAPSHOT'
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
-    kapt 'android.arch.persistence.room:compiler:1.1.1'
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 }
