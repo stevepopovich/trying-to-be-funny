@@ -11,7 +11,7 @@ interface SetService {
     }
 
     fun saveSet()
-    fun clearSet()
+    fun clearStaticSet()
     fun getSet(recordingPath: RecordingPath): Set
     fun querySets(date: Date?, jokes: List<Joke>?, location: Place?)
 
@@ -22,8 +22,11 @@ class SetServiceImpl: SetService {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun clearSet() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun clearStaticSet() {
+        SetService.setDate = null
+        SetService.setJokes = null
+        SetService.setLocation = null
+        SetService.setRecordingPath = null
     }
 
     override fun getSet(recordingPath: RecordingPath): Set {
