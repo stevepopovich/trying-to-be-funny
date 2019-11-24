@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.SetService
 import kotlinx.android.synthetic.main.add_bits.*
 
 class AddBitsFragment : Fragment() {
     private val nextFragment = AddLocationFragment()
+
+    private val bits = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,12 +32,15 @@ class AddBitsFragment : Fragment() {
             chip.isCheckable = false
             chip.isFocusable = false
             chip.text = add_bits_input.text.toString()
+            bits.add(add_bits_input.text.toString())
             chip.textStartPadding = 14f
             chip_group.addView(chip)
             add_bits_input.text.clear()
         }
 
         next_button.setOnClickListener {
+            SetService.setJokes = bits
+
             val transaction = fragmentManager!!.beginTransaction()
             transaction.setCustomAnimations(
                 R.anim.enter_from_right,
@@ -48,5 +54,9 @@ class AddBitsFragment : Fragment() {
         cancel_button.setOnClickListener {
             // TODO ask are you sure and then close the modal
         }
+    }
+
+    private fun addBitsToService() {
+
     }
 }
