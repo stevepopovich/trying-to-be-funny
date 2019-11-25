@@ -7,7 +7,6 @@
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="cancel">Cancel</string>
-    <string name="google_places_api_key">TODO</string>
     <string name="add_a_location">Add a location</string>
     <string name="or">Or</string>
     <string name="no_location_text">It was in an unmarked broom closet</string>
