@@ -15,7 +15,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.SetService
 import kotlinx.android.synthetic.main.main_fragment.*
+import java.util.*
 
 class RecorderFragment : Fragment() {
 
@@ -92,7 +94,9 @@ class RecorderFragment : Fragment() {
             dialogFragment.show(fragmentManager!!, "dialog")
 
             val mediaPlayer = MediaPlayer()
-            mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/recorder.m4a")
+            val randomRecordingPath = UUID.randomUUID().toString() + ".m4a"
+            SetService.setRecordingPath = randomRecordingPath
+            mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/${randomRecordingPath}")
             mediaPlayer.prepare()
             mediaPlayer.start()
         }
