@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, getString(R.string.google_places_api_key), Locale.US);
+            Places.initialize(applicationContext, getString(R.string.google_places_api_key), Locale.US)
         }
     }
 }
