@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.SetService
+import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
 import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
 
@@ -60,6 +61,15 @@ class RecorderFragment : Fragment() {
         button_pause_recording.setOnClickListener {
             pauseRecording()
         }
+
+        replay_first_recording.setOnClickListener {
+            val set = SetServiceLocalSavingImpl(context!!).getRandomSet()
+
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/${set.recordingPath}")
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+        }
     }
 
     override fun onCreateView(
@@ -92,13 +102,6 @@ class RecorderFragment : Fragment() {
 
             val dialogFragment = OnFinishRecordingFragment()
             dialogFragment.show(fragmentManager!!, "dialog")
-
-            val mediaPlayer = MediaPlayer()
-            val randomRecordingPath = UUID.randomUUID().toString() + ".m4a"
-            SetService.setRecordingPath = randomRecordingPath
-            mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/${randomRecordingPath}")
-            mediaPlayer.prepare()
-            mediaPlayer.start()
         }
     }
 
@@ -129,10 +132,10 @@ class RecorderFragment : Fragment() {
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        val randomRecordingPath = UUID.randomUUID().toString() + ".m4a"
+        SetService.setRecordingPath = randomRecordingPath
         mediaRecorder.setOutputFile(
-            "${context!!.externalCacheDir?.absolutePath}/recorder.m4a"
-            //context!!.getExternalFilesDir(null)!!.absolutePath + "/recording2.m4a"
-            //Environment.getExternalStorageDirectory().absolutePath + "/recording1.m4a"
+            "${context!!.externalCacheDir?.absolutePath}/${randomRecordingPath}"
         )
         mediaRecorder.prepare()
     }

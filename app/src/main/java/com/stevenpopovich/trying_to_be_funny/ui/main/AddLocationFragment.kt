@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.stevenpopovich.trying_to_be_funny.SetService
+import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
 import kotlinx.android.synthetic.main.add_location.*
 
 
@@ -22,5 +23,9 @@ class AddLocationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         places_autocomplete.setOnPlaceSelectedListener { SetService.setLocation = it }
+
+        no_location_button.setOnClickListener { SetService.setLocation = null }
+
+        save_set.setOnClickListener { SetServiceLocalSavingImpl(context!!).saveStaticSet() }
     }
 }

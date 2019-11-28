@@ -6,7 +6,6 @@ import java.util.*
 
 interface SetService {
     companion object {
-        var setDate: Date? = null
         var setJokes: List<Joke>? = null
         var setLocation: Place? = null
         var setRecordingPath: RecordingPath? = null
@@ -32,28 +31,70 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
     override fun saveStaticSet() {
         validateStaticSet()
 
+        val setId = SetId.randomUUID()
+
+        database.placeDao().insert(
+            RoomPlace(
+                SetService.setLocation!!.place_id,
+                SetService.setLocation!!.description
+            )
+        )
+
         database.setDao().insert(
             RoomSet(
-                SetId.randomUUID(),
-                SetService.setJokes!!,
-                SetService.setLocation!!,
-                SetService.setDate!!,
+                setId,
+                SetService.setLocation!!.place_id,
+                Date(),
                 SetService.setRecordingPath!!
             )
         )
+
+        SetService.setJokes!!.forEach {
+            database.jokeDao().insert(
+                RoomJoke(
+                    it
+                )
+            )
+
+            database.jokeSetJoin().insert(
+                JokeSetJoin(
+                    it,
+                    setId
+                )
+            )
+        }
 
         clearStaticSet()
     }
 
     override fun clearStaticSet() {
-        SetService.setDate = null
         SetService.setJokes = null
         SetService.setLocation = null
         SetService.setRecordingPath = null
     }
 
     override fun getSet(setId: SetId): Set {
-        return database.setDao().get(setId).toSet()
+        val roomSet = database.setDao().get(setId)
+
+        val jokes = database.jokeSetJoin().getJokesForSet(roomSet.id)
+
+        val roomPlace = database.placeDao().get(roomSet.placeId)
+
+        val place = Place(
+            roomPlace?.description,
+            roomPlace?.placeId,
+            listOf(),
+            listOf(),
+            listOf()
+        )
+
+        return Set(
+            id = roomSet.id,
+            recordingPath = roomSet.recordingPath,
+            jokes = jokes.map { it.joke },
+            date = roomSet.date,
+            location = place
+        )
     }
 
     override fun querySets(date: Date?, jokes: List<Joke>?, location: Place?) {
@@ -64,15 +105,13 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
         database.setDao().deleteById(setId)
     }
 
-    private fun validateStaticSet() {
-        if (SetService.setDate == null)
-            throw SetDataInvalidError(property = "SetDate", value = SetService.setDate)
+    fun getRandomSet(): Set {
+        return getSet(database.setDao().getAll().random().id)
+    }
 
+    private fun validateStaticSet() {
         if (SetService.setJokes == null)
             throw SetDataInvalidError(property = "SetJokes", value = SetService.setJokes)
-
-        if (SetService.setLocation == null)
-            throw SetDataInvalidError(property = "SetLocation", value = SetService.setLocation)
 
         if (SetService.setRecordingPath == null)
             throw SetDataInvalidError(property = "SetRecordingPath", value = SetService.setRecordingPath)
