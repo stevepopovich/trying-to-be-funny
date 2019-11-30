@@ -10,9 +10,7 @@ typealias RecordingPath = String
 
 typealias SetId = UUID
 
-typealias JokeId = UUID
-
-data class Set(
+data class StandUpSet(
     val id: SetId,
     val jokes: List<Joke>,
     val location: Place?,

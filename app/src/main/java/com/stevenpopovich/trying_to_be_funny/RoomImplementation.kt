@@ -1,5 +1,6 @@
 package com.stevenpopovich.trying_to_be_funny
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import java.util.*
 
@@ -28,10 +29,10 @@ data class RoomSet(
 @Dao
 interface SetDao {
     @Query("SELECT * FROM $setTableName")
-    fun getAll(): List<RoomSet>
+    fun getAll(): LiveData<List<RoomSet>>
 
     @Query("SELECT * FROM $setTableName WHERE id = :setId")
-    fun get(setId: SetId): RoomSet
+    fun get(setId: SetId): LiveData<RoomSet>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(set: RoomSet)
@@ -48,10 +49,10 @@ class RoomJoke(
 @Dao
 interface JokeDao {
     @Query("SELECT * FROM $jokeTableName")
-    fun getAll(): List<RoomJoke>
+    fun getAll(): LiveData<List<RoomJoke>>
 
     @Query("SELECT * FROM $jokeTableName WHERE joke = :joke")
-    fun get(joke: Joke): RoomJoke
+    fun get(joke: Joke): LiveData<RoomJoke>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(joke: RoomJoke)
@@ -65,12 +66,12 @@ class RoomPlace(
 @Dao
 interface PlaceDao {
     @Query("SELECT * FROM $placeTableName")
-    fun getAll():   List<RoomPlace>
+    fun getAll(): LiveData<List<RoomPlace>>
 
     @Query("SELECT * FROM $placeTableName WHERE placeId = :placeId")
-    fun get(placeId: String?): RoomPlace?
+    fun get(placeId: String?): LiveData<RoomPlace>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(place: RoomPlace)
 }
 
@@ -102,7 +103,7 @@ interface JokeSetJoinDao {
            ON $jokeTableName.joke = $setJokeJoinTable.joke
            WHERE $setJokeJoinTable.setId=:setId
            """)
-    fun getJokesForSet(setId: SetId): List<RoomJoke>
+    fun getJokesForSet(setId: SetId): LiveData<List<RoomJoke>>
 
     @Query("""
            SELECT * FROM $setTableName
@@ -110,7 +111,7 @@ interface JokeSetJoinDao {
            ON $setTableName.id = $setJokeJoinTable.setId
            WHERE $setJokeJoinTable.joke=:joke
            """)
-    fun getSetsForJoke(joke: Joke): List<RoomSet>
+    fun getSetsForJoke(joke: Joke): LiveData<List<RoomSet>>
 }
 
 private class RoomSetConverters {

@@ -24,8 +24,6 @@ class AddLocationFragment : Fragment() {
 
         places_autocomplete.setOnPlaceSelectedListener { SetService.setLocation = it }
 
-        no_location_button.setOnClickListener { SetService.setLocation = null }
-
         save_set.setOnClickListener { SetServiceLocalSavingImpl(context!!).saveStaticSet() }
     }
 }

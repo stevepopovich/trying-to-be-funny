@@ -1,7 +1,12 @@
 package com.stevenpopovich.trying_to_be_funny
 
+import android.arch.convert.toObservable
 import android.content.Context
+import android.os.AsyncTask
+import androidx.lifecycle.LiveData
 import androidx.room.Room
+import io.reactivex.Observable
+import io.reactivex.rxkotlin.Observables
 import java.util.*
 
 interface SetService {
@@ -13,17 +18,17 @@ interface SetService {
 
     fun saveStaticSet()
     fun clearStaticSet()
-    fun getSet(setId: SetId): Set
-    fun querySets(date: Date?, jokes: List<Joke>?, location: Place?)
+    fun getSet(setId: SetId): Observable<StandUpSet>
+    fun querySets(date: Date?, jokes: List<Joke>?, location: Place?): List<StandUpSet>
     fun deleteSet(setId: SetId)
 }
 
 /**
- * This is class is responsible for managing Set data, but not the actual recording audio.
- * A "Set" contains the path to the actual audio, respective to the implementation type
+ * This is class is responsible for managing StandUpSet data, but not the actual recording audio.
+ * A "StandUpSet" contains the path to the actual audio, respective to the implementation type
  */
 class SetServiceLocalSavingImpl(context: Context) : SetService {
-    val database: AppDatabase = Room.databaseBuilder(
+    private val database: AppDatabase = Room.databaseBuilder(
         context,
         AppDatabase::class.java, "room-trying-to-be-funny-database"
     ).build()
@@ -33,38 +38,40 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
 
         val setId = SetId.randomUUID()
 
-        database.placeDao().insert(
-            RoomPlace(
-                SetService.setLocation!!.place_id,
-                SetService.setLocation!!.description
-            )
-        )
-
-        database.setDao().insert(
-            RoomSet(
-                setId,
-                SetService.setLocation!!.place_id,
-                Date(),
-                SetService.setRecordingPath!!
-            )
-        )
-
-        SetService.setJokes!!.forEach {
-            database.jokeDao().insert(
-                RoomJoke(
-                    it
+        AsyncTask.execute {
+            database.placeDao().insert(
+                RoomPlace(
+                    SetService.setLocation!!.place_id,
+                    SetService.setLocation!!.description
                 )
             )
 
-            database.jokeSetJoin().insert(
-                JokeSetJoin(
-                    it,
-                    setId
+            database.setDao().insert(
+                RoomSet(
+                    setId,
+                    SetService.setLocation!!.place_id,
+                    Date(),
+                    SetService.setRecordingPath!!
                 )
             )
+
+            SetService.setJokes!!.forEach {
+                database.jokeDao().insert(
+                    RoomJoke(
+                        it
+                    )
+                )
+
+                database.jokeSetJoin().insert(
+                    JokeSetJoin(
+                        it,
+                        setId
+                    )
+                )
+            }
+
+            clearStaticSet()
         }
-
-        clearStaticSet()
     }
 
     override fun clearStaticSet() {
@@ -73,48 +80,54 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
         SetService.setRecordingPath = null
     }
 
-    override fun getSet(setId: SetId): Set {
-        val roomSet = database.setDao().get(setId)
+    override fun getSet(setId: SetId): Observable<StandUpSet> {
+        return database.setDao().get(setId).toObservable().flatMap { roomSet ->
+            val placeObservable = database.placeDao().get(roomSet.placeId).toObservable()
+            val jokesObservable = database.jokeSetJoin().getJokesForSet(roomSet.id).toObservable()
+            Observables.combineLatest(
+                placeObservable,
+                jokesObservable
+            ) { roomPlace: RoomPlace?, jokes: List<RoomJoke>  ->
+                val place = Place(
+                    roomPlace?.description,
+                    roomPlace?.placeId,
+                    listOf(),
+                    listOf(),
+                    listOf()
+                )
 
-        val jokes = database.jokeSetJoin().getJokesForSet(roomSet.id)
-
-        val roomPlace = database.placeDao().get(roomSet.placeId)
-
-        val place = Place(
-            roomPlace?.description,
-            roomPlace?.placeId,
-            listOf(),
-            listOf(),
-            listOf()
-        )
-
-        return Set(
-            id = roomSet.id,
-            recordingPath = roomSet.recordingPath,
-            jokes = jokes.map { it.joke },
-            date = roomSet.date,
-            location = place
-        )
+                StandUpSet(
+                    id = roomSet.id,
+                    recordingPath = roomSet.recordingPath,
+                    jokes = jokes.map { it.joke },
+                    date = roomSet.date,
+                    location = place
+                )
+            }
+        }
     }
 
-    override fun querySets(date: Date?, jokes: List<Joke>?, location: Place?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun querySets(date: Date?, jokes: List<Joke>?, location: Place?): List<StandUpSet> {
+        throw NotImplementedError()
     }
 
     override fun deleteSet(setId: SetId) {
         database.setDao().deleteById(setId)
     }
 
-    fun getRandomSet(): Set {
-        return getSet(database.setDao().getAll().random().id)
-    }
-
     private fun validateStaticSet() {
         if (SetService.setJokes == null)
             throw SetDataInvalidError(property = "SetJokes", value = SetService.setJokes)
 
+        if (SetService.setLocation == null)
+            throw SetDataInvalidError(property = "SetLocation", value = SetService.setLocation)
+
         if (SetService.setRecordingPath == null)
             throw SetDataInvalidError(property = "SetRecordingPath", value = SetService.setRecordingPath)
+    }
+
+    fun getAllSets(): LiveData<List<RoomSet>> {
+        return database.setDao().getAll()
     }
 }
 

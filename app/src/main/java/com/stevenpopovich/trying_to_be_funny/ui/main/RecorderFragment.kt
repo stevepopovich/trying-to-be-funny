@@ -26,6 +26,8 @@ class RecorderFragment : Fragment() {
     private var isRecording: Boolean = false
     private var recordingPaused: Boolean = false
 
+    private val dialogTag = "save_dialog_id"
+
     companion object {
         fun newInstance() = RecorderFragment()
     }
@@ -63,12 +65,16 @@ class RecorderFragment : Fragment() {
         }
 
         replay_first_recording.setOnClickListener {
-            val set = SetServiceLocalSavingImpl(context!!).getRandomSet()
-
-            val mediaPlayer = MediaPlayer()
-            mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/${set.recordingPath}")
-            mediaPlayer.prepare()
-            mediaPlayer.start()
+            val newService = SetServiceLocalSavingImpl(context!!)
+            newService
+                .getAllSets()
+                .observeForever {
+                    val set = it.random()
+                    val mediaPlayer = MediaPlayer()
+                    mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/${set.recordingPath}")
+                    mediaPlayer.prepare()
+                    mediaPlayer.start()
+                }
         }
     }
 
@@ -94,14 +100,14 @@ class RecorderFragment : Fragment() {
             isRecording = false
 
             val ft = fragmentManager!!.beginTransaction()
-            val prev = fragmentManager!!.findFragmentByTag("dialog")
+            val prev = fragmentManager!!.findFragmentByTag(dialogTag)
             if (prev != null) {
                 ft.remove(prev)
             }
             ft.addToBackStack(null)
 
             val dialogFragment = OnFinishRecordingFragment()
-            dialogFragment.show(fragmentManager!!, "dialog")
+            dialogFragment.show(fragmentManager!!, dialogTag)
         }
     }
 
