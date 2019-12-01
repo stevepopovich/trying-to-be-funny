@@ -5,9 +5,9 @@ import androidx.room.*
 import java.util.*
 
 private const val setTableName = "set_table"
-private const val jokeTableName = "joke_table"
+private const val bitTableName = "bit_table"
 private const val placeTableName = "place_table"
-private const val setJokeJoinTable = "set_joke_join"
+private const val setbitJoinTable = "set_bit_join"
 
 @Entity(
     tableName = setTableName,
@@ -41,21 +41,21 @@ interface SetDao {
     fun deleteById(setId: SetId)
 }
 
-@Entity(tableName = jokeTableName)
-class RoomJoke(
-     @PrimaryKey val joke: Joke
+@Entity(tableName = bitTableName)
+class Roombit(
+     @PrimaryKey val bit: bit
 )
 
 @Dao
-interface JokeDao {
-    @Query("SELECT * FROM $jokeTableName")
-    fun getAll(): LiveData<List<RoomJoke>>
+interface bitDao {
+    @Query("SELECT * FROM $bitTableName")
+    fun getAll(): LiveData<List<Roombit>>
 
-    @Query("SELECT * FROM $jokeTableName WHERE joke = :joke")
-    fun get(joke: Joke): LiveData<RoomJoke>
+    @Query("SELECT * FROM $bitTableName WHERE bit = :bit")
+    fun get(bit: bit): LiveData<Roombit>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(joke: RoomJoke)
+    fun insert(bit: Roombit)
 }
 
 @Entity(tableName = placeTableName)
@@ -76,40 +76,40 @@ interface PlaceDao {
 }
 
 
-@Entity(tableName = setJokeJoinTable,
-    primaryKeys = ["joke", "setId"],
-    foreignKeys = [ForeignKey(entity = RoomJoke::class,
-        parentColumns = arrayOf("joke"),
-        childColumns = arrayOf("joke")), ForeignKey(entity = RoomSet::class,
+@Entity(tableName = setbitJoinTable,
+    primaryKeys = ["bit", "setId"],
+    foreignKeys = [ForeignKey(entity = Roombit::class,
+        parentColumns = arrayOf("bit"),
+        childColumns = arrayOf("bit")), ForeignKey(entity = RoomSet::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("setId"))
     ]
 )
-data class JokeSetJoin(
-    val joke: Joke,
+data class bitSetJoin(
+    val bit: bit,
     val setId: UUID
 )
 
 @Dao
-interface JokeSetJoinDao {
+interface bitSetJoinDao {
     @Insert
-    fun insert(jokeSetJoin: JokeSetJoin)
+    fun insert(bitSetJoin: bitSetJoin)
 
     @Query("""
-           SELECT * FROM $jokeTableName
-           INNER JOIN $setJokeJoinTable
-           ON $jokeTableName.joke = $setJokeJoinTable.joke
-           WHERE $setJokeJoinTable.setId=:setId
+           SELECT * FROM $bitTableName
+           INNER JOIN $setbitJoinTable
+           ON $bitTableName.bit = $setbitJoinTable.bit
+           WHERE $setbitJoinTable.setId=:setId
            """)
-    fun getJokesForSet(setId: SetId): LiveData<List<RoomJoke>>
+    fun getbitsForSet(setId: SetId): LiveData<List<Roombit>>
 
     @Query("""
            SELECT * FROM $setTableName
-           INNER JOIN $setJokeJoinTable
-           ON $setTableName.id = $setJokeJoinTable.setId
-           WHERE $setJokeJoinTable.joke=:joke
+           INNER JOIN $setbitJoinTable
+           ON $setTableName.id = $setbitJoinTable.setId
+           WHERE $setbitJoinTable.bit=:bit
            """)
-    fun getSetsForJoke(joke: Joke): LiveData<List<RoomSet>>
+    fun getSetsForbit(bit: bit): LiveData<List<RoomSet>>
 }
 
 private class RoomSetConverters {
@@ -134,11 +134,11 @@ private class RoomSetConverters {
     }
 }
 
-@Database(entities = [RoomSet::class, RoomPlace::class, RoomJoke::class, JokeSetJoin::class], version = 1)
+@Database(entities = [RoomSet::class, RoomPlace::class, Roombit::class, bitSetJoin::class], version = 1)
 @TypeConverters(RoomSetConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun setDao(): SetDao
-    abstract fun jokeDao(): JokeDao
+    abstract fun bitDao(): bitDao
     abstract fun placeDao(): PlaceDao
-    abstract fun jokeSetJoin(): JokeSetJoinDao
+    abstract fun bitSetJoin(): bitSetJoinDao
 }

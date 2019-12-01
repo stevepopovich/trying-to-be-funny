@@ -11,7 +11,7 @@ import java.util.*
 
 interface SetService {
     companion object {
-        var setJokes: List<Joke>? = null
+        var setbits: List<bit>? = null
         var setLocation: Place? = null
         var setRecordingPath: RecordingPath? = null
     }
@@ -19,7 +19,7 @@ interface SetService {
     fun saveStaticSet()
     fun clearStaticSet()
     fun getSet(setId: SetId): Observable<StandUpSet>
-    fun querySets(date: Date?, jokes: List<Joke>?, location: Place?): List<StandUpSet>
+    fun querySets(date: Date?, bits: List<bit>?, location: Place?): List<StandUpSet>
     fun deleteSet(setId: SetId)
 }
 
@@ -55,15 +55,15 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
                 )
             )
 
-            SetService.setJokes!!.forEach {
-                database.jokeDao().insert(
-                    RoomJoke(
+            SetService.setbits!!.forEach {
+                database.bitDao().insert(
+                    Roombit(
                         it
                     )
                 )
 
-                database.jokeSetJoin().insert(
-                    JokeSetJoin(
+                database.bitSetJoin().insert(
+                    bitSetJoin(
                         it,
                         setId
                     )
@@ -75,7 +75,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
     }
 
     override fun clearStaticSet() {
-        SetService.setJokes = null
+        SetService.setbits = null
         SetService.setLocation = null
         SetService.setRecordingPath = null
     }
@@ -83,11 +83,11 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
     override fun getSet(setId: SetId): Observable<StandUpSet> {
         return database.setDao().get(setId).toObservable().flatMap { roomSet ->
             val placeObservable = database.placeDao().get(roomSet.placeId).toObservable()
-            val jokesObservable = database.jokeSetJoin().getJokesForSet(roomSet.id).toObservable()
+            val bitsObservable = database.bitSetJoin().getbitsForSet(roomSet.id).toObservable()
             Observables.combineLatest(
                 placeObservable,
-                jokesObservable
-            ) { roomPlace: RoomPlace?, jokes: List<RoomJoke>  ->
+                bitsObservable
+            ) { roomPlace: RoomPlace?, bits: List<Roombit>  ->
                 val place = Place(
                     roomPlace?.description,
                     roomPlace?.placeId,
@@ -99,7 +99,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
                 StandUpSet(
                     id = roomSet.id,
                     recordingPath = roomSet.recordingPath,
-                    jokes = jokes.map { it.joke },
+                    bits = bits.map { it.bit },
                     date = roomSet.date,
                     location = place
                 )
@@ -107,7 +107,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
         }
     }
 
-    override fun querySets(date: Date?, jokes: List<Joke>?, location: Place?): List<StandUpSet> {
+    override fun querySets(date: Date?, bits: List<bit>?, location: Place?): List<StandUpSet> {
         throw NotImplementedError()
     }
 
@@ -116,8 +116,8 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
     }
 
     private fun validateStaticSet() {
-        if (SetService.setJokes == null)
-            throw SetDataInvalidError(property = "SetJokes", value = SetService.setJokes)
+        if (SetService.setbits == null)
+            throw SetDataInvalidError(property = "Setbits", value = SetService.setbits)
 
         if (SetService.setLocation == null)
             throw SetDataInvalidError(property = "SetLocation", value = SetService.setLocation)

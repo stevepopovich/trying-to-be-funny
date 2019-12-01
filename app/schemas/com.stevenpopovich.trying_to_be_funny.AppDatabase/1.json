@@ -81,19 +81,19 @@
         "foreignKeys": []
       },
       {
-        "tableName": "joke_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`joke` TEXT NOT NULL, PRIMARY KEY(`joke`))",
+        "tableName": "bit_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`bit` TEXT NOT NULL, PRIMARY KEY(`bit`))",
         "fields": [
           {
-            "fieldPath": "joke",
-            "columnName": "joke",
+            "fieldPath": "bit",
+            "columnName": "bit",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "joke"
+            "bit"
           ],
           "autoGenerate": false
         },
@@ -101,12 +101,12 @@
         "foreignKeys": []
       },
       {
-        "tableName": "set_joke_join",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`joke` TEXT NOT NULL, `setId` TEXT NOT NULL, PRIMARY KEY(`joke`, `setId`), FOREIGN KEY(`joke`) REFERENCES `joke_table`(`joke`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`setId`) REFERENCES `set_table`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "tableName": "set_bit_join",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`bit` TEXT NOT NULL, `setId` TEXT NOT NULL, PRIMARY KEY(`bit`, `setId`), FOREIGN KEY(`bit`) REFERENCES `bit_table`(`bit`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`setId`) REFERENCES `set_table`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "joke",
-            "columnName": "joke",
+            "fieldPath": "bit",
+            "columnName": "bit",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -119,7 +119,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "joke",
+            "bit",
             "setId"
           ],
           "autoGenerate": false
@@ -127,14 +127,14 @@
         "indices": [],
         "foreignKeys": [
           {
-            "table": "joke_table",
+            "table": "bit_table",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
-              "joke"
+              "bit"
             ],
             "referencedColumns": [
-              "joke"
+              "bit"
             ]
           },
           {

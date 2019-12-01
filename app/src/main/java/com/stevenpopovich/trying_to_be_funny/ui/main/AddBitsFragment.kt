@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.add_bits.*
 class AddBitsFragment : Fragment() {
     private val nextFragment = AddLocationFragment()
 
-    private val jokesInTheSetForSaving = mutableListOf<String>()
+    private val bitsInTheSetForSaving = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,14 +26,14 @@ class AddBitsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        add_joke_button.setOnClickListener {
-            jokesInTheSetForSaving.add(add_jokes_input.text.toString())
-            chip_group_for_jokes_in_set.addView(buildChip())
-            add_jokes_input.text.clear()
+        add_bit_button.setOnClickListener {
+            bitsInTheSetForSaving.add(add_bits_input.text.toString())
+            chip_group_for_bits_in_set.addView(buildChip())
+            add_bits_input.text.clear()
         }
 
         next_button.setOnClickListener {
-            SetService.setJokes = jokesInTheSetForSaving
+            SetService.setbits = bitsInTheSetForSaving
 
             val transaction = fragmentManager!!.beginTransaction()
             transaction.setCustomAnimations(
@@ -55,7 +55,7 @@ class AddBitsFragment : Fragment() {
         chip.isClickable = false
         chip.isCheckable = false
         chip.isFocusable = false
-        chip.text = add_jokes_input.text.toString()
+        chip.text = add_bits_input.text.toString()
         chip.textStartPadding = 14f
         return chip
     }
