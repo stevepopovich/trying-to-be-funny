@@ -71,7 +71,7 @@ class RecorderFragment : Fragment() {
                 .observeForever {
                     val set = it.random()
                     val mediaPlayer = MediaPlayer()
-                    mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/${set.recordingPath}")
+                    mediaPlayer.setDataSource("${context!!.externalCacheDir?.absolutePath}/${set.recordingId}")
                     mediaPlayer.prepare()
                     mediaPlayer.start()
                 }
@@ -82,13 +82,11 @@ class RecorderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setUpRecorder()
-
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
     private fun startRecording() {
-        setUpRecorder()
+        resetRecorder()
         mediaRecorder.start()
         isRecording = true
     }
@@ -133,13 +131,13 @@ class RecorderFragment : Fragment() {
         recordingPaused = false
     }
 
-    private fun setUpRecorder() {
+    private fun resetRecorder() {
         mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
         val randomRecordingPath = UUID.randomUUID().toString() + ".m4a"
-        SetService.setRecordingPath = randomRecordingPath
+        SetService.setRecordingId = randomRecordingPath
         mediaRecorder.setOutputFile(
             "${context!!.externalCacheDir?.absolutePath}/${randomRecordingPath}"
         )

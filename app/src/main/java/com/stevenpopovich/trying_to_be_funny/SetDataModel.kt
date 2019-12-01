@@ -6,7 +6,7 @@ typealias Bit = String
 
 typealias Place = com.seatgeek.placesautocomplete.model.Place
 
-typealias RecordingPath = String
+typealias RecordingId = String
 
 typealias SetId = UUID
 
@@ -15,5 +15,5 @@ data class StandUpSet(
     val bits: List<Bit>,
     val location: Place,
     val date: Date,
-    val recordingPath: RecordingPath
+    val recordingId: RecordingId
 )

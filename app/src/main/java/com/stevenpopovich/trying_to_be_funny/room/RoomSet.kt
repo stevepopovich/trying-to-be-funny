@@ -2,7 +2,7 @@ package com.stevenpopovich.trying_to_be_funny.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.stevenpopovich.trying_to_be_funny.RecordingPath
+import com.stevenpopovich.trying_to_be_funny.RecordingId
 import com.stevenpopovich.trying_to_be_funny.SetId
 import java.util.*
 
@@ -20,7 +20,7 @@ data class RoomSet(
     @PrimaryKey val id: SetId,
     @ColumnInfo(name = "placeId") val placeId: String?,
     val date: Date,
-    val recordingPath: RecordingPath
+    val recordingId: RecordingId
 )
 
 @Dao

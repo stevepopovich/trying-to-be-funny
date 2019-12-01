@@ -14,7 +14,7 @@ interface SetService {
     companion object {
         var setbits: List<Bit>? = null
         var setLocation: Place? = null
-        var setRecordingPath: RecordingPath? = null
+        var setRecordingId: RecordingId? = null
     }
 
     fun saveStaticSet()
@@ -26,7 +26,8 @@ interface SetService {
 
 /**
  * This is class is responsible for managing StandUpSet data, but not the actual recording audio.
- * A "StandUpSet" contains the path to the actual audio, respective to the implementation type
+ * A "StandUpSet" is basically just the metadata about the content of the audio
+ * A "StandUpSet" contains the path to the actual audio
  */
 class SetServiceLocalSavingImpl(context: Context) : SetService {
     private val database: AppDatabase = Room.databaseBuilder(
@@ -52,7 +53,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
                     setId,
                     SetService.setLocation!!.place_id,
                     Date(),
-                    SetService.setRecordingPath!!
+                    SetService.setRecordingId!!
                 )
             )
 
@@ -78,7 +79,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
     override fun clearStaticSet() {
         SetService.setbits = null
         SetService.setLocation = null
-        SetService.setRecordingPath = null
+        SetService.setRecordingId = null
     }
 
     override fun getSet(setId: SetId): Observable<StandUpSet> {
@@ -99,7 +100,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
 
                 StandUpSet(
                     id = roomSet.id,
-                    recordingPath = roomSet.recordingPath,
+                    recordingId = roomSet.recordingId,
                     bits = bits.map { it.bit },
                     date = roomSet.date,
                     location = place
@@ -123,8 +124,8 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
         if (SetService.setLocation == null)
             throw SetDataInvalidError(property = "SetLocation", value = SetService.setLocation)
 
-        if (SetService.setRecordingPath == null)
-            throw SetDataInvalidError(property = "SetRecordingPath", value = SetService.setRecordingPath)
+        if (SetService.setRecordingId == null)
+            throw SetDataInvalidError(property = "SetRecordingPath", value = SetService.setRecordingId)
     }
 
     fun getAllSets(): LiveData<List<RoomSet>> {
