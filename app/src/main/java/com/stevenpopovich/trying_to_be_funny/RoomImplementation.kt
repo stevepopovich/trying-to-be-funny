@@ -11,13 +11,13 @@ private const val setJokeJoinTable = "set_joke_join"
 
 @Entity(
     tableName = setTableName,
-    foreignKeys = arrayOf(
+    foreignKeys = [
         ForeignKey(
             entity = RoomPlace::class,
             parentColumns = arrayOf("placeId"),
             childColumns = arrayOf("placeId")
         )
-    )
+    ]
 )
 data class RoomSet(
     @PrimaryKey val id: SetId,
@@ -77,15 +77,13 @@ interface PlaceDao {
 
 
 @Entity(tableName = setJokeJoinTable,
-    primaryKeys = arrayOf("joke","setId"),
-    foreignKeys = arrayOf(
-        ForeignKey(entity = RoomJoke::class,
-            parentColumns = arrayOf("joke"),
-            childColumns = arrayOf("joke")),
-        ForeignKey(entity = RoomSet::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("setId"))
-    )
+    primaryKeys = ["joke", "setId"],
+    foreignKeys = [ForeignKey(entity = RoomJoke::class,
+        parentColumns = arrayOf("joke"),
+        childColumns = arrayOf("joke")), ForeignKey(entity = RoomSet::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("setId"))
+    ]
 )
 data class JokeSetJoin(
     val joke: Joke,
