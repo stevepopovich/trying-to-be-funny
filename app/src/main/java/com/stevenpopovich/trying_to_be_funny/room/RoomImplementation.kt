@@ -1,7 +1,10 @@
-package com.stevenpopovich.trying_to_be_funny
+package com.stevenpopovich.trying_to_be_funny.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.stevenpopovich.trying_to_be_funny.Bit
+import com.stevenpopovich.trying_to_be_funny.RecordingPath
+import com.stevenpopovich.trying_to_be_funny.SetId
 import java.util.*
 
 private const val setTableName = "set_table"
