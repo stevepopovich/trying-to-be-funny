@@ -11,7 +11,7 @@ import java.util.*
 
 interface SetService {
     companion object {
-        var setbits: List<bit>? = null
+        var setbits: List<Bit>? = null
         var setLocation: Place? = null
         var setRecordingPath: RecordingPath? = null
     }
@@ -19,7 +19,7 @@ interface SetService {
     fun saveStaticSet()
     fun clearStaticSet()
     fun getSet(setId: SetId): Observable<StandUpSet>
-    fun querySets(date: Date?, bits: List<bit>?, location: Place?): List<StandUpSet>
+    fun querySets(date: Date?, bits: List<Bit>?, location: Place?): List<StandUpSet>
     fun deleteSet(setId: SetId)
 }
 
@@ -57,13 +57,13 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
 
             SetService.setbits!!.forEach {
                 database.bitDao().insert(
-                    Roombit(
+                    RoomBit(
                         it
                     )
                 )
 
                 database.bitSetJoin().insert(
-                    bitSetJoin(
+                    BitSetJoin(
                         it,
                         setId
                     )
@@ -83,11 +83,11 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
     override fun getSet(setId: SetId): Observable<StandUpSet> {
         return database.setDao().get(setId).toObservable().flatMap { roomSet ->
             val placeObservable = database.placeDao().get(roomSet.placeId).toObservable()
-            val bitsObservable = database.bitSetJoin().getbitsForSet(roomSet.id).toObservable()
+            val bitsObservable = database.bitSetJoin().getBitsForSet(roomSet.id).toObservable()
             Observables.combineLatest(
                 placeObservable,
                 bitsObservable
-            ) { roomPlace: RoomPlace?, bits: List<Roombit>  ->
+            ) { roomPlace: RoomPlace?, bits: List<RoomBit>  ->
                 val place = Place(
                     roomPlace?.description,
                     roomPlace?.placeId,
@@ -107,7 +107,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
         }
     }
 
-    override fun querySets(date: Date?, bits: List<bit>?, location: Place?): List<StandUpSet> {
+    override fun querySets(date: Date?, bits: List<Bit>?, location: Place?): List<StandUpSet> {
         throw NotImplementedError()
     }
 

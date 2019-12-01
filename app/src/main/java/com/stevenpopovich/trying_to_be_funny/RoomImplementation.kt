@@ -7,7 +7,7 @@ import java.util.*
 private const val setTableName = "set_table"
 private const val bitTableName = "bit_table"
 private const val placeTableName = "place_table"
-private const val setbitJoinTable = "set_bit_join"
+private const val setBitJoinTable = "set_bit_join"
 
 @Entity(
     tableName = setTableName,
@@ -42,20 +42,20 @@ interface SetDao {
 }
 
 @Entity(tableName = bitTableName)
-class Roombit(
-     @PrimaryKey val bit: bit
+class RoomBit(
+     @PrimaryKey val bit: Bit
 )
 
 @Dao
-interface bitDao {
+interface BitDao {
     @Query("SELECT * FROM $bitTableName")
-    fun getAll(): LiveData<List<Roombit>>
+    fun getAll(): LiveData<List<RoomBit>>
 
     @Query("SELECT * FROM $bitTableName WHERE bit = :bit")
-    fun get(bit: bit): LiveData<Roombit>
+    fun get(bit: Bit): LiveData<RoomBit>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(bit: Roombit)
+    fun insert(bit: RoomBit)
 }
 
 @Entity(tableName = placeTableName)
@@ -76,40 +76,40 @@ interface PlaceDao {
 }
 
 
-@Entity(tableName = setbitJoinTable,
+@Entity(tableName = setBitJoinTable,
     primaryKeys = ["bit", "setId"],
-    foreignKeys = [ForeignKey(entity = Roombit::class,
+    foreignKeys = [ForeignKey(entity = RoomBit::class,
         parentColumns = arrayOf("bit"),
         childColumns = arrayOf("bit")), ForeignKey(entity = RoomSet::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("setId"))
     ]
 )
-data class bitSetJoin(
-    val bit: bit,
+data class BitSetJoin(
+    val bit: Bit,
     val setId: UUID
 )
 
 @Dao
-interface bitSetJoinDao {
+interface BitSetJoinDao {
     @Insert
-    fun insert(bitSetJoin: bitSetJoin)
+    fun insert(bitSetJoin: BitSetJoin)
 
     @Query("""
            SELECT * FROM $bitTableName
-           INNER JOIN $setbitJoinTable
-           ON $bitTableName.bit = $setbitJoinTable.bit
-           WHERE $setbitJoinTable.setId=:setId
+           INNER JOIN $setBitJoinTable
+           ON $bitTableName.Bit = $setBitJoinTable.Bit
+           WHERE $setBitJoinTable.setId=:setId
            """)
-    fun getbitsForSet(setId: SetId): LiveData<List<Roombit>>
+    fun getBitsForSet(setId: SetId): LiveData<List<RoomBit>>
 
     @Query("""
            SELECT * FROM $setTableName
-           INNER JOIN $setbitJoinTable
-           ON $setTableName.id = $setbitJoinTable.setId
-           WHERE $setbitJoinTable.bit=:bit
+           INNER JOIN $setBitJoinTable
+           ON $setTableName.id = $setBitJoinTable.setId
+           WHERE $setBitJoinTable.bit=:bit
            """)
-    fun getSetsForbit(bit: bit): LiveData<List<RoomSet>>
+    fun getSetsForBit(bit: Bit): LiveData<List<RoomSet>>
 }
 
 private class RoomSetConverters {
@@ -134,11 +134,11 @@ private class RoomSetConverters {
     }
 }
 
-@Database(entities = [RoomSet::class, RoomPlace::class, Roombit::class, bitSetJoin::class], version = 1)
+@Database(entities = [RoomSet::class, RoomPlace::class, RoomBit::class, BitSetJoin::class], version = 1)
 @TypeConverters(RoomSetConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun setDao(): SetDao
-    abstract fun bitDao(): bitDao
+    abstract fun bitDao(): BitDao
     abstract fun placeDao(): PlaceDao
-    abstract fun bitSetJoin(): bitSetJoinDao
+    abstract fun bitSetJoin(): BitSetJoinDao
 }
