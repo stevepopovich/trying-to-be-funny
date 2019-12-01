@@ -134,26 +134,6 @@ private class RoomSetConverters {
     fun stringToUUID(id: String): UUID {
         return UUID.fromString(id)
     }
-
-//    @TypeConverter
-//    fun recordingPathToString(recordingPath: RecordingPath): String {
-//        return recordingPath
-//    }
-//
-//    @TypeConverter
-//    fun stringToRecordingPath(path: String): RecordingPath {
-//        return path
-//    }
-//
-//    @TypeConverter
-//    fun jokeToString(joke: Joke): String {
-//        return joke
-//    }
-//
-//    @TypeConverter
-//    fun stringToJoke(jokeString: String): Joke {
-//        return jokeString
-//    }
 }
 
 @Database(entities = [RoomSet::class, RoomPlace::class, RoomJoke::class, JokeSetJoin::class], version = 1)
