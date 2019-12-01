@@ -13,7 +13,7 @@ typealias SetId = UUID
 data class StandUpSet(
     val id: SetId,
     val jokes: List<Joke>,
-    val location: Place?,
+    val location: Place,
     val date: Date,
     val recordingPath: RecordingPath
 )
