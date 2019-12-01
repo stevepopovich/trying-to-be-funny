@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_for_bits_in_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp"/>
+
     <ImageButton
         android:id="@+id/add_bit_button"
         android:layout_width="40dp"
@@ -13,7 +22,8 @@
         app:layout_constraintBottom_toTopOf="@+id/next_button"
         app:layout_constraintStart_toEndOf="@+id/add_bits_input"
         app:srcCompat="@drawable/ic_add_black_24dp"
-        style="@style/Widget.AppCompat.Button.Borderless" />
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:contentDescription="@string/add_bit_button_description" />
 
     <Button
         android:id="@+id/next_button"
@@ -45,15 +55,7 @@
         app:layout_constraintBottom_toTopOf="@+id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="8dp"/>
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chip_group_for_bits_in_set"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="16dp"/>
+        android:layout_marginBottom="8dp"
+        android:importantForAutofill="no" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,4 +11,5 @@
     <string name="or">Or</string>
     <string name="no_location_text">It was in an unmarked broom closet</string>
     <string name="save_set">Save Set</string>
+    <string name="add_bit_button_description">A button that adds bits to the set for saving</string>
 </resources>
