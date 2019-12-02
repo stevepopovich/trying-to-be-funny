@@ -25,10 +25,6 @@ class RecorderFragment : Fragment() {
 
     private val dialogTag = "save_dialog_id"
 
-    companion object {
-        fun newInstance() = RecorderFragment()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -80,15 +76,7 @@ class RecorderFragment : Fragment() {
             mediaRecorder.release()
             isRecording = false
 
-            val ft = fragmentManager!!.beginTransaction()
-            val prev = fragmentManager!!.findFragmentByTag(dialogTag)
-            if (prev != null) {
-                ft.remove(prev)
-            }
-            ft.addToBackStack(null)
-
-            val dialogFragment = OnFinishRecordingFragment()
-            dialogFragment.show(fragmentManager!!, dialogTag)
+            showSaveProcessDialog()
         }
     }
 
@@ -142,5 +130,17 @@ class RecorderFragment : Fragment() {
             )
             ActivityCompat.requestPermissions(activity!!, permissions, 0)
         }
+    }
+
+    private fun showSaveProcessDialog() {
+        val ft = fragmentManager!!.beginTransaction()
+        val prev = fragmentManager!!.findFragmentByTag(dialogTag)
+        if (prev != null) {
+            ft.remove(prev)
+        }
+        ft.addToBackStack(null)
+
+        val dialogFragment = OnFinishRecordingFragment()
+        dialogFragment.show(fragmentManager!!, dialogTag)
     }
 }

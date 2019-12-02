@@ -43,7 +43,7 @@ class AddBitsFragment : Fragment() {
                 R.anim.enter_from_left,
                 R.anim.exit_to_right
             )
-            
+
             transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
         }
     }
