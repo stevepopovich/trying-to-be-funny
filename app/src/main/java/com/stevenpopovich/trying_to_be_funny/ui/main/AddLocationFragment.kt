@@ -22,7 +22,10 @@ class AddLocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        places_autocomplete.setOnPlaceSelectedListener { SetService.setLocation = it }
+        places_autocomplete.setOnPlaceSelectedListener {
+            SetService.setLocation = it
+            save_set.isEnabled = true
+        }
 
         save_set.setOnClickListener { SetServiceLocalSavingImpl(context!!).saveStaticSet() }
     }
