@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.stevenpopovich.trying_to_be_funny.R
 import kotlinx.android.synthetic.main.do_you_want_to_save.*
@@ -27,7 +28,7 @@ class WouldYouLikeToSaveFragment : Fragment() {
         }
 
         no_I_dont_want_to_save.setOnClickListener {
-
+            (parentFragment as DialogFragment).dismiss()
         }
     }
 
