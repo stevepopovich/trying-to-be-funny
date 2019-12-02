@@ -46,6 +46,7 @@ class RecorderFragment : Fragment() {
             togglePause()
         }
 
+        //TODO temporary for testing
         replay_first_recording.setOnClickListener {
             val newService = SetServiceLocalSavingImpl(context!!)
             newService
