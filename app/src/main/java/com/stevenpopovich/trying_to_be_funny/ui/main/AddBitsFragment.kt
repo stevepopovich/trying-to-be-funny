@@ -30,9 +30,10 @@ class AddBitsFragment : Fragment() {
             bitsInTheSetForSaving.add(add_bits_input.text.toString())
             chip_group_for_bits_in_set.addView(buildChip())
             add_bits_input.text.clear()
+            next_button_on_add_bits.isEnabled = true
         }
 
-        next_button.setOnClickListener {
+        next_button_on_add_bits.setOnClickListener {
             SetService.setbits = bitsInTheSetForSaving
 
             val transaction = fragmentManager!!.beginTransaction()
@@ -42,11 +43,8 @@ class AddBitsFragment : Fragment() {
                 R.anim.enter_from_left,
                 R.anim.exit_to_right
             )
+            
             transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
-        }
-
-        cancel_button.setOnClickListener {
-            // TODO ask are you sure and then close the modal
         }
     }
 

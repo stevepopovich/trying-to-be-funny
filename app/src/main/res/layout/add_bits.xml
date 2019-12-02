@@ -14,37 +14,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="16dp"/>
 
-    <ImageButton
-        android:id="@+id/add_bit_button"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/next_button"
-        app:layout_constraintStart_toEndOf="@+id/add_bits_input"
-        app:srcCompat="@drawable/ic_add_black_24dp"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:contentDescription="@string/add_bit_button_description" />
-
-    <Button
-        android:id="@+id/next_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cancel_button"
-        android:layout_marginBottom="32dp" />
-
-    <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/next_button"
-        android:layout_marginBottom="32dp"/>
-
     <EditText
         android:id="@+id/add_bits_input"
         android:layout_width="wrap_content"
@@ -52,10 +21,32 @@
         android:ems="10"
         android:hint="@string/add_bits"
         android:inputType="textAutoComplete"
-        app:layout_constraintBottom_toTopOf="@+id/next_button"
+        app:layout_constraintBottom_toTopOf="@+id/next_button_on_add_bits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="8dp"
         android:importantForAutofill="no" />
+
+    <ImageButton
+        android:id="@+id/add_bit_button"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/next_button_on_add_bits"
+        app:layout_constraintStart_toEndOf="@+id/add_bits_input"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:contentDescription="@string/add_bit_button_description" />
+
+    <Button
+        android:id="@+id/next_button_on_add_bits"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="32dp"
+        android:enabled="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
