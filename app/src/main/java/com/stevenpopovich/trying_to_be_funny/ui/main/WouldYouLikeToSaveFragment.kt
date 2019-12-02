@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.SetService
 import kotlinx.android.synthetic.main.do_you_want_to_save.*
+import java.io.File
 
 class WouldYouLikeToSaveFragment : Fragment() {
     private val nextFragment = AddBitsFragment()
@@ -29,6 +31,8 @@ class WouldYouLikeToSaveFragment : Fragment() {
 
         no_I_dont_want_to_save.setOnClickListener {
             (parentFragment as DialogFragment).dismiss()
+
+            File("${context!!.externalCacheDir?.absolutePath}/${SetService.setRecordingId}").delete()
         }
     }
 
