@@ -32,29 +32,14 @@ class RecorderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getPermissions()
+
         button_start_recording.setOnClickListener {
-            if  (context != null) {
-                if (ContextCompat.checkSelfPermission(
-                        activity!!.applicationContext,
-                        Manifest.permission.RECORD_AUDIO
-                    ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                        activity!!.applicationContext,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    val permissions = arrayOf(
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                    ActivityCompat.requestPermissions(activity!!, permissions, 0)
-                } else {
-                    startRecording()
-                }
-            }
+            startRecording()
         }
 
         button_stop_recording.setOnClickListener {
-            stopRecording()
+            stopRecordingHandler()
         }
 
         button_pause_recording.setOnClickListener {
@@ -88,7 +73,7 @@ class RecorderFragment : Fragment() {
         isRecording = true
     }
 
-    private fun stopRecording() {
+    private fun stopRecordingHandler() {
         if (isRecording) {
             mediaRecorder.stop()
             mediaRecorder.release()
@@ -139,5 +124,22 @@ class RecorderFragment : Fragment() {
         mediaRecorder.pause()
         recordingPaused = true
         button_pause_recording.text = getString(R.string.resume)
+    }
+
+    private fun getPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                activity!!.applicationContext,
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                activity!!.applicationContext,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            val permissions = arrayOf(
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            ActivityCompat.requestPermissions(activity!!, permissions, 0)
+        }
     }
 }
