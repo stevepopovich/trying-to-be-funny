@@ -7,15 +7,6 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/or_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/or"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/places_autocomplete" />
-
-    <TextView
         android:id="@+id/location_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,15 +25,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_header"
         app:pacv_googleMapsApiKey="@string/google_places_api_key" />
-
-    <Button
-        android:id="@+id/no_location_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_location_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/or_label" />
 
     <Button
         android:id="@+id/save_set"
