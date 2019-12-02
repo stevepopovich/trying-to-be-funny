@@ -1,12 +1,9 @@
 package com.stevenpopovich.trying_to_be_funny.ui.main
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,7 +58,7 @@ class RecorderFragment : Fragment() {
         }
 
         button_pause_recording.setOnClickListener {
-            pauseRecording()
+            togglePause()
         }
 
         replay_first_recording.setOnClickListener {
@@ -109,25 +106,19 @@ class RecorderFragment : Fragment() {
         }
     }
 
-    @SuppressLint("RestrictedApi", "SetTextI18n")
-    @TargetApi(Build.VERSION_CODES.N)
-    private fun pauseRecording() {
+    private fun togglePause() {
         if (isRecording) {
             if (!recordingPaused) {
-                mediaRecorder.pause()
-                recordingPaused = true
-                button_pause_recording.text = "Resume"
+                pauseRecording()
             } else {
                 resumeRecording()
             }
         }
     }
 
-    @SuppressLint("RestrictedApi", "SetTextI18n")
-    @TargetApi(Build.VERSION_CODES.N)
     private fun resumeRecording() {
         mediaRecorder.resume()
-        button_pause_recording.text = "Pause"
+        button_pause_recording.text = getString(R.string.pause)
         recordingPaused = false
     }
 
@@ -142,5 +133,11 @@ class RecorderFragment : Fragment() {
             "${context!!.externalCacheDir?.absolutePath}/${randomRecordingPath}"
         )
         mediaRecorder.prepare()
+    }
+
+    private fun pauseRecording() {
+        mediaRecorder.pause()
+        recordingPaused = true
+        button_pause_recording.text = getString(R.string.resume)
     }
 }
