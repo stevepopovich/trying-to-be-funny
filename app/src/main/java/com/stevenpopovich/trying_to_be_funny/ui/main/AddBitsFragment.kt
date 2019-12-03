@@ -11,6 +11,8 @@ import com.stevenpopovich.trying_to_be_funny.SetService
 import kotlinx.android.synthetic.main.add_bits.*
 
 class AddBitsFragment : Fragment() {
+    private lateinit var jokeStrings: List<String>
+
     private val nextFragment = AddLocationFragment()
 
     private val bitsInTheSetForSaving = mutableListOf<String>()
@@ -26,11 +28,22 @@ class AddBitsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        jokeStrings = listOf(
+            getString(R.string.whats_so_funny),
+            getString(R.string.whats_the_deal_with_airline_food),
+            getString(R.string.funny_how),
+            getString(R.string.maybe_that_hecklers_right),
+            getString(R.string.i_dont_think_it_went_so_bad)
+        )
+
+        maybeShowWhatsSoFunnyPlaceholder()
+
         add_bit_button.setOnClickListener {
             bitsInTheSetForSaving.add(add_bits_input.text.toString())
             chip_group_for_bits_in_set.addView(buildChip())
             add_bits_input.text.clear()
             next_button_on_add_bits.isEnabled = true
+            maybeShowWhatsSoFunnyPlaceholder()
         }
 
         next_button_on_add_bits.setOnClickListener {
@@ -57,11 +70,21 @@ class AddBitsFragment : Fragment() {
         chip.textStartPadding = 14f
         chip.isCloseIconVisible = true
 
-        chip.setOnCloseIconClickListener{
+        chip.setOnCloseIconClickListener {
             bitsInTheSetForSaving.remove(chip.text.toString())
             chip_group_for_bits_in_set.removeView(chip)
+            maybeShowWhatsSoFunnyPlaceholder()
         }
 
         return chip
+    }
+
+    private fun maybeShowWhatsSoFunnyPlaceholder() {
+        if (bitsInTheSetForSaving.isEmpty()) {
+            whats_funny_text_view.text = jokeStrings.random()
+            whats_funny_text_view.visibility = View.VISIBLE
+        } else {
+            whats_funny_text_view.visibility = View.GONE
+        }
     }
 }

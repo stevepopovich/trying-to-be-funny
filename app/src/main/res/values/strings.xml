@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Trying to be Funny</string>
     <string name="do_you_want_to_save">Do you want to save?</string>
     <string name="yes">Yes</string>
@@ -14,4 +14,10 @@
     <string name="add_bit_button_description">A button that adds bits to the set for saving</string>
     <string name="resume">Resume</string>
     <string name="pause">Pause</string>
+
+    <string name="whats_so_funny">What\'s so funny?</string>
+    <string name="funny_how">Funny how? Funny like a clown?</string>
+    <string name="whats_the_deal_with_airline_food">What\'s the deal with airline food?</string>
+    <string name="i_dont_think_it_went_so_bad" tools:ignore="TypographyEllipsis">I don\'t think it went so bad...</string>
+    <string name="maybe_that_hecklers_right" tools:ignore="TypographyEllipsis">Maybe that heckler\'s right...</string>
 </resources>
