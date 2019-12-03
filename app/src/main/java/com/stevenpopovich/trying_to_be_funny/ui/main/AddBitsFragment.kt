@@ -55,6 +55,13 @@ class AddBitsFragment : Fragment() {
         chip.isFocusable = false
         chip.text = add_bits_input.text.toString()
         chip.textStartPadding = 14f
+        chip.isCloseIconVisible = true
+
+        chip.setOnCloseIconClickListener{
+            bitsInTheSetForSaving.remove(chip.text.toString())
+            chip_group_for_bits_in_set.removeView(chip)
+        }
+
         return chip
     }
 }
