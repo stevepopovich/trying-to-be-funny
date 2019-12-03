@@ -36,14 +36,14 @@ class AddBitsFragment : Fragment() {
             getString(R.string.i_dont_think_it_went_so_bad)
         )
 
-        maybeShowWhatsSoFunnyPlaceholder()
+        updateFunnyPlaceholderAndSaveButtonState()
 
         add_bit_button.setOnClickListener {
             bitsInTheSetForSaving.add(add_bits_input.text.toString())
             chip_group_for_bits_in_set.addView(buildChip())
             add_bits_input.text.clear()
             next_button_on_add_bits.isEnabled = true
-            maybeShowWhatsSoFunnyPlaceholder()
+            updateFunnyPlaceholderAndSaveButtonState()
         }
 
         next_button_on_add_bits.setOnClickListener {
@@ -73,18 +73,20 @@ class AddBitsFragment : Fragment() {
         chip.setOnCloseIconClickListener {
             bitsInTheSetForSaving.remove(chip.text.toString())
             chip_group_for_bits_in_set.removeView(chip)
-            maybeShowWhatsSoFunnyPlaceholder()
+            updateFunnyPlaceholderAndSaveButtonState()
         }
 
         return chip
     }
 
-    private fun maybeShowWhatsSoFunnyPlaceholder() {
+    private fun updateFunnyPlaceholderAndSaveButtonState() {
         if (bitsInTheSetForSaving.isEmpty()) {
             whats_funny_text_view.text = jokeStrings.random()
             whats_funny_text_view.visibility = View.VISIBLE
+            next_button_on_add_bits.isEnabled = false
         } else {
             whats_funny_text_view.visibility = View.GONE
+            next_button_on_add_bits.isEnabled = true
         }
     }
 }
