@@ -6,12 +6,12 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textview_sound_recorder_heading"
+        android:id="@+id/sound_recorder_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sound Recorder"
+        android:text="@string/app_name"
         android:layout_centerHorizontal="true"
-        android:textSize="32dp"
+        android:textSize="32sp"
         android:textStyle="bold"
         android:textColor="#000"
         android:layout_marginTop="32dp"
@@ -23,16 +23,16 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="96dp"
-        android:text="Replay first recording!"
+        android:text="Replay random recording!"
     />
 
     <Button
         android:id="@+id/button_start_recording"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
+        android:text="@string/start"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginBottom="32dp"
         android:layout_centerVertical="true"/>
 
@@ -40,18 +40,20 @@
         android:id="@+id/button_pause_recording"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pause"
+        android:text="@string/pause"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginBottom="32dp"
+        android:enabled="false"/>
 
     <Button
         android:id="@+id/button_stop_recording"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stop"
+        android:text="@string/stop"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="32dp"
-        android:layout_marginRight="32dp"/>
+        android:layout_marginEnd="32dp"
+        android:enabled="false"/>
 </RelativeLayout>

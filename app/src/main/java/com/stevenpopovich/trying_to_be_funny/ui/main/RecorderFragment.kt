@@ -35,7 +35,7 @@ class RecorderFragment : Fragment() {
         }
 
         button_stop_recording.setOnClickListener {
-            stopRecordingHandler()
+            stopRecording()
         }
 
         button_pause_recording.setOnClickListener {
@@ -68,15 +68,22 @@ class RecorderFragment : Fragment() {
         resetRecorder()
         mediaRecorder.start()
         isRecording = true
+        button_pause_recording.isEnabled = true
+        button_stop_recording.isEnabled = true
+        button_start_recording.isEnabled = false
     }
 
-    private fun stopRecordingHandler() {
+    private fun stopRecording() {
         if (isRecording) {
             mediaRecorder.stop()
             mediaRecorder.release()
             isRecording = false
 
             showSaveProcessDialog()
+
+            button_start_recording.isEnabled = true
+            button_pause_recording.isEnabled = false
+            button_stop_recording.isEnabled = false
         }
     }
 
