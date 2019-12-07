@@ -54,11 +54,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.google.android.libraries.places:places:2.1.0'
-    implementation 'com.seatgeek:placesautocomplete:0.3-SNAPSHOT'
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation 'com.github.YvesCheung:LiveDataToRxJava:v1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.libraries.places:places:2.1.0'
 }
