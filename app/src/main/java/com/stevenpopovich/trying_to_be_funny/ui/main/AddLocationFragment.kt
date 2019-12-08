@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
@@ -46,6 +47,9 @@ class AddLocationFragment : Fragment() {
             }
         })
 
-        save_set.setOnClickListener { SetServiceLocalSavingImpl(context!!).saveStaticSet() }
+        save_set.setOnClickListener {
+            SetServiceLocalSavingImpl(context!!).saveStaticSet()
+            (parentFragment as DialogFragment).dismiss()
+        }
     }
 }
