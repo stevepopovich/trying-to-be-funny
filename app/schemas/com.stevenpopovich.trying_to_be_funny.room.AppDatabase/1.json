@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9a518ae03569fd0da110e079b480f5a1",
+    "identityHash": "28bf85ca54ded07d890d236643742596",
     "entities": [
       {
         "tableName": "set_table",
@@ -56,7 +56,7 @@
       },
       {
         "tableName": "place_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`placeId` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`placeId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`placeId` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`placeId`))",
         "fields": [
           {
             "fieldPath": "placeId",
@@ -65,8 +65,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "description",
-            "columnName": "description",
+            "fieldPath": "name",
+            "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -154,7 +154,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9a518ae03569fd0da110e079b480f5a1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '28bf85ca54ded07d890d236643742596')"
     ]
   }
 }

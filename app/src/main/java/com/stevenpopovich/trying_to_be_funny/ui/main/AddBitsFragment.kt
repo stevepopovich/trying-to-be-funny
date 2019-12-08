@@ -47,7 +47,7 @@ class AddBitsFragment : Fragment() {
         }
 
         next_button_on_add_bits.setOnClickListener {
-            SetService.setbits = bitsInTheSetForSaving
+            SetService.setBits = bitsInTheSetForSaving
 
             val transaction = fragmentManager!!.beginTransaction()
             transaction.setCustomAnimations(

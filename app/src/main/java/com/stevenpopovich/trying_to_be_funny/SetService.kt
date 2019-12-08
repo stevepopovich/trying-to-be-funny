@@ -12,7 +12,7 @@ import java.util.*
 
 interface SetService {
     companion object {
-        var setbits: List<Bit>? = null
+        var setBits: List<Bit>? = null
         var setLocation: Place? = null
         var setRecordingId: RecordingId? = null
     }
@@ -43,21 +43,21 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
         AsyncTask.execute {
             database.placeDao().insert(
                 RoomPlace(
-                    SetService.setLocation!!.place_id,
-                    SetService.setLocation!!.description
+                    SetService.setLocation!!.id,
+                    SetService.setLocation!!.name
                 )
             )
 
             database.setDao().insert(
                 RoomSet(
                     setId,
-                    SetService.setLocation!!.place_id,
+                    SetService.setLocation!!.id,
                     Date(),
                     SetService.setRecordingId!!
                 )
             )
 
-            SetService.setbits!!.forEach {
+            SetService.setBits!!.forEach {
                 database.bitDao().insert(
                     RoomBit(
                         it
@@ -77,7 +77,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
     }
 
     override fun clearStaticSet() {
-        SetService.setbits = null
+        SetService.setBits = null
         SetService.setLocation = null
         SetService.setRecordingId = null
     }
@@ -91,11 +91,8 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
                 bitsObservable
             ) { roomPlace: RoomPlace?, bits: List<RoomBit>  ->
                 val place = Place(
-                    roomPlace?.description,
-                    roomPlace?.placeId,
-                    listOf(),
-                    listOf(),
-                    listOf()
+                    roomPlace!!.placeId,
+                    roomPlace.name
                 )
 
                 StandUpSet(
@@ -118,8 +115,8 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
     }
 
     private fun validateStaticSet() {
-        if (SetService.setbits == null)
-            throw SetDataInvalidError(property = "Setbits", value = SetService.setbits)
+        if (SetService.setBits == null)
+            throw SetDataInvalidError(property = "SetBits", value = SetService.setBits)
 
         if (SetService.setLocation == null)
             throw SetDataInvalidError(property = "SetLocation", value = SetService.setLocation)

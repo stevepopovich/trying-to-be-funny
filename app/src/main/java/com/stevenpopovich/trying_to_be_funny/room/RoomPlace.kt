@@ -6,7 +6,7 @@ import androidx.room.*
 @Entity(tableName = placeTableName)
 class RoomPlace(
     @PrimaryKey val placeId: String,
-    val description: String
+    val name: String
 )
 
 @Dao

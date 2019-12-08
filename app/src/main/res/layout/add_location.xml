@@ -16,15 +16,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.seatgeek.placesautocomplete.PlacesAutocompleteTextView
-        android:id="@+id/places_autocomplete"
+    <fragment android:id="@+id/places_autocomplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_header"
-        app:pacv_googleMapsApiKey="@string/google_places_api_key" />
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        />
 
     <Button
         android:id="@+id/save_set"
