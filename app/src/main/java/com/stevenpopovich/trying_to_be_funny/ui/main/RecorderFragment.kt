@@ -141,13 +141,6 @@ class RecorderFragment : Fragment() {
     }
 
     private fun showSaveProcessDialog() {
-        val ft = fragmentManager!!.beginTransaction()
-        val prev = fragmentManager!!.findFragmentByTag(dialogTag)
-        if (prev != null) {
-            ft.remove(prev)
-        }
-        ft.addToBackStack(null)
-
         val dialogFragment = OnFinishRecordingContainerFragment()
         dialogFragment.setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, R.style.AppTheme)
 
