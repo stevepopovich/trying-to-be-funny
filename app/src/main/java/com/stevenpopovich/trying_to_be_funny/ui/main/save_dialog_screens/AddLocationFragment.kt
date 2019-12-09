@@ -1,4 +1,4 @@
-package com.stevenpopovich.trying_to_be_funny.ui.main
+package com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens
 
 import android.content.ContentValues.TAG
 import android.os.Bundle

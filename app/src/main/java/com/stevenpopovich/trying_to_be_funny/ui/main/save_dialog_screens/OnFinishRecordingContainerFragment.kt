@@ -1,4 +1,4 @@
-package com.stevenpopovich.trying_to_be_funny.ui.main
+package com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.stevenpopovich.trying_to_be_funny.R
 
 
-class OnFinishRecordingFragment : DialogFragment() {
+class OnFinishRecordingContainerFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,21 +22,20 @@ class OnFinishRecordingFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val toolbar = view.findViewById<Toolbar>(R.id.dialog_toolbar)
-        toolbar.setNavigationIcon(R.drawable.common_google_signin_btn_text_light_normal);
+        toolbar.setNavigationIcon(R.drawable.ic_close)
         toolbar.setNavigationOnClickListener {
-            dismiss()
+            fragmentManager!!
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_up_animation, R.anim.slide_down_animation)
+                .remove(this).commit()
         }
-        toolbar.setTitle(R.string.save_set)
+        toolbar.title = getString(R.string.save_set)
 
         val childFragment = WouldYouLikeToSaveFragment()
-        val transaction = childFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(
-            R.anim.enter_from_right,
-            R.anim.exit_to_left,
-            R.anim.enter_from_left,
-            R.anim.exit_to_right
-        )
 
-        transaction.replace(R.id.on_finished_recording_container, childFragment).commit()
+        childFragmentManager
+            .beginTransaction()
+            .replace(R.id.on_finished_recording_container, childFragment)
+            .commit()
     }
 }

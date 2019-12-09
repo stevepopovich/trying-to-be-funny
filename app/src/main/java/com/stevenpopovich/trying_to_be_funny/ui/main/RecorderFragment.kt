@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.SetService
 import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
+import com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens.OnFinishRecordingContainerFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
 
@@ -147,8 +148,16 @@ class RecorderFragment : Fragment() {
         }
         ft.addToBackStack(null)
 
-        val dialogFragment = OnFinishRecordingFragment()
+        val dialogFragment =
+            OnFinishRecordingContainerFragment()
+
+        val transaction = fragmentManager!!
+            .beginTransaction()
+            .setCustomAnimations(R.anim.slide_up_animation, R.anim.slide_down_animation)
+            .add(R.id.container, dialogFragment, dialogTag)
+
         dialogFragment.setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, R.style.AppTheme)
-        dialogFragment.show(fragmentManager!!, dialogTag)
+
+        transaction.commit()
     }
 }
