@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.DialogFragment
 import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.slideDownDismiss
@@ -23,11 +24,12 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val toolbar = view.findViewById<Toolbar>(R.id.dialog_toolbar)
-        toolbar.setNavigationIcon(R.drawable.ic_close)
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
         toolbar.setNavigationOnClickListener {
             slideDownDismiss(fragmentManager!!)
         }
         toolbar.title = getString(R.string.save_set)
+        toolbar.setTitleTextColor(getColor(context!!, R.color.white))
 
         val childFragment = AddBitsFragment()
 
