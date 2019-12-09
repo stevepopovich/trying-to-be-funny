@@ -31,7 +31,7 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
         }
         toolbar.title = getString(R.string.save_set)
 
-        val childFragment = WouldYouLikeToSaveFragment()
+        val childFragment = AddBitsFragment()
 
         childFragmentManager
             .beginTransaction()

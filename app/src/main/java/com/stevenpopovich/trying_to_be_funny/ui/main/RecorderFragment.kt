@@ -148,8 +148,7 @@ class RecorderFragment : Fragment() {
         }
         ft.addToBackStack(null)
 
-        val dialogFragment =
-            OnFinishRecordingContainerFragment()
+        val dialogFragment = OnFinishRecordingContainerFragment()
 
         val transaction = fragmentManager!!
             .beginTransaction()
