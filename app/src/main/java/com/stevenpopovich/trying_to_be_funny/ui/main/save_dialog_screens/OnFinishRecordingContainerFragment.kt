@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.DialogFragment
@@ -26,7 +27,7 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
         val toolbar = view.findViewById<Toolbar>(R.id.dialog_toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
         toolbar.setNavigationOnClickListener {
-            slideDownDismiss(fragmentManager!!)
+            showAreYouSureDialog()
         }
         toolbar.title = getString(R.string.save_set)
         toolbar.setTitleTextColor(getColor(context!!, R.color.white))
@@ -37,5 +38,23 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
             .beginTransaction()
             .replace(R.id.on_finished_recording_container, childFragment)
             .commit()
+    }
+
+    private fun showAreYouSureDialog() {
+        val dialogBuilder = AlertDialog.Builder(context!!)
+
+        dialogBuilder
+            .setMessage(getString(R.string.saving_set_dialog_title))
+            .setPositiveButton(getString(R.string.discard)) { dialog, _ ->
+                dialog.cancel()
+                slideDownDismiss(fragmentManager!!)
+
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.cancel()
+            }
+
+        val alert = dialogBuilder.create()
+        alert.show()
     }
 }

@@ -16,6 +16,8 @@
     <string name="pause">Pause</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="saving_set_dialog_title">Discard set?</string>
+    <string name="discard">Discard</string>
 
     <string name="whats_so_funny">What\'s so funny?</string>
     <string name="funny_how">Funny how? Funny like a clown?</string>
