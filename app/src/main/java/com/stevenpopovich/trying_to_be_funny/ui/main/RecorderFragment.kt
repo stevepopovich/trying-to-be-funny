@@ -149,14 +149,13 @@ class RecorderFragment : Fragment() {
         ft.addToBackStack(null)
 
         val dialogFragment = OnFinishRecordingContainerFragment()
+        dialogFragment.setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, R.style.AppTheme)
 
         val transaction = fragmentManager!!
             .beginTransaction()
             .setCustomAnimations(R.anim.slide_up_animation, R.anim.slide_down_animation, R.anim.slide_up_animation, R.anim.slide_down_animation)
             .add(R.id.container, dialogFragment, dialogTag)
             .addToBackStack(null)
-
-        dialogFragment.setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, R.style.AppTheme)
 
         transaction.commit()
     }
