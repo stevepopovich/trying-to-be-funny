@@ -53,8 +53,7 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.cancel()
             }
-
-        val alert = dialogBuilder.create()
-        alert.show()
+            .create()
+            .show()
     }
 }
