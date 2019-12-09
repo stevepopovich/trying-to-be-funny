@@ -152,8 +152,9 @@ class RecorderFragment : Fragment() {
 
         val transaction = fragmentManager!!
             .beginTransaction()
-            .setCustomAnimations(R.anim.slide_up_animation, R.anim.slide_down_animation)
+            .setCustomAnimations(R.anim.slide_up_animation, R.anim.slide_down_animation, R.anim.slide_up_animation, R.anim.slide_down_animation)
             .add(R.id.container, dialogFragment, dialogTag)
+            .addToBackStack(null)
 
         dialogFragment.setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, R.style.AppTheme)
 

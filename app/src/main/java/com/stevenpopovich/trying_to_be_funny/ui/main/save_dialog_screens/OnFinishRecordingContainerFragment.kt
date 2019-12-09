@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.slideDownDismiss
 
 
 class OnFinishRecordingContainerFragment : DialogFragment() {
@@ -24,10 +25,7 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
         val toolbar = view.findViewById<Toolbar>(R.id.dialog_toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_close)
         toolbar.setNavigationOnClickListener {
-            fragmentManager!!
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_up_animation, R.anim.slide_down_animation)
-                .remove(this).commit()
+            slideDownDismiss(fragmentManager!!)
         }
         toolbar.title = getString(R.string.save_set)
 
