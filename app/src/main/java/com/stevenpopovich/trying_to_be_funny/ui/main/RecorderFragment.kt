@@ -148,6 +148,7 @@ class RecorderFragment : Fragment() {
         ft.addToBackStack(null)
 
         val dialogFragment = OnFinishRecordingFragment()
+        dialogFragment.setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, R.style.AppTheme)
         dialogFragment.show(fragmentManager!!, dialogTag)
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import com.stevenpopovich.trying_to_be_funny.R
 
@@ -19,6 +20,13 @@ class OnFinishRecordingFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val toolbar = view.findViewById<Toolbar>(R.id.dialog_toolbar)
+        toolbar.setNavigationIcon(R.drawable.common_google_signin_btn_text_light_normal);
+        toolbar.setNavigationOnClickListener {
+            dismiss()
+        }
+        toolbar.setTitle(R.string.save_set)
 
         val childFragment = WouldYouLikeToSaveFragment()
         val transaction = childFragmentManager.beginTransaction()

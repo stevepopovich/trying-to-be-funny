@@ -29,13 +29,13 @@
             android:id="@+id/yes_I_want_to_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
             android:text="@string/yes"
             />
 
         <Button
             android:id="@+id/no_I_dont_want_to_save"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/no" />
