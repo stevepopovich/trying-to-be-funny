@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.stevenpopovich.trying_to_be_funny.R
@@ -38,6 +39,32 @@ class AddBitsFragment : Fragment() {
         configureViewClickListeners(view)
 
         makeSoftInputEnterButtonCloseInput()
+
+        SetService.setBits?.forEach {
+            add_bits_input.setText(it)
+            addBitChipToBitsInSet()
+        }
+
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                val dialogBuilder = AlertDialog.Builder(context!!)
+
+                dialogBuilder
+                    .setMessage(getString(R.string.saving_set_dialog_title))
+                    .setPositiveButton(getString(R.string.discard)) { dialog, _ ->
+                        dialog.cancel()
+                        parentFragment!!.fragmentManager!!.popBackStackImmediate()
+                    }
+                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
+                true
+            } else false
+        }
     }
 
     private fun setUpJokeStringsForEmptyState() {

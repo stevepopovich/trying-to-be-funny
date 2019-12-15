@@ -1,11 +1,18 @@
 package com.stevenpopovich.trying_to_be_funny
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import android.app.Activity
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 
-fun Fragment.slideDownDismiss(fragmentManager: FragmentManager) {
-    fragmentManager
-        .beginTransaction()
-        .setCustomAnimations(R.anim.slide_up_animation, R.anim.slide_down_animation)
-        .remove(this).commit()
+fun hideKeyboardFrom(context: Context, view: View) {
+    val inputMethodManager: InputMethodManager =
+        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun showKeyboardFrom(context: Context, view: View) {
+    val inputMethodManager: InputMethodManager =
+        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
 }

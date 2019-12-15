@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.DialogFragment
 import com.stevenpopovich.trying_to_be_funny.R
-import com.stevenpopovich.trying_to_be_funny.slideDownDismiss
 import kotlinx.android.synthetic.main.on_finished_recording_container.*
 
 class OnFinishRecordingContainerFragment : DialogFragment() {
@@ -45,7 +44,7 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
             .setMessage(getString(R.string.saving_set_dialog_title))
             .setPositiveButton(getString(R.string.discard)) { dialog, _ ->
                 dialog.cancel()
-                slideDownDismiss(fragmentManager!!)
+                fragmentManager!!.popBackStackImmediate()
             }
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.cancel()
