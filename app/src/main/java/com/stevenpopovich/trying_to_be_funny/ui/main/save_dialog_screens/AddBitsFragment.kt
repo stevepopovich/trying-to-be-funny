@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
-import com.stevenpopovich.trying_to_be_funny.*
-import io.reactivex.disposables.CompositeDisposable
+import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.SetService
+import com.stevenpopovich.trying_to_be_funny.hideKeyboardFrom
+import com.stevenpopovich.trying_to_be_funny.showKeyboardFrom
 import kotlinx.android.synthetic.main.add_bits.*
 
 class AddBitsFragment : Fragment() {
@@ -56,16 +58,16 @@ class AddBitsFragment : Fragment() {
         }
 
         add_bit_button.setOnClickListener {
-            addBitChip()
+            addBitChipToBitsInSet()
         }
 
         done_adding_bits_button.setOnClickListener {
-            doneAddingBits()
+            closeInputAndShowInitialViewButtons()
         }
 
         add_bits_input.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER)
-                addBitChip()
+                addBitChipToBitsInSet()
 
             true
         }
@@ -73,19 +75,11 @@ class AddBitsFragment : Fragment() {
         next_button_on_add_bits.setOnClickListener {
             SetService.setBits = bitsInTheSetForSaving
 
-            val transaction = fragmentManager!!.beginTransaction()
-            transaction.setCustomAnimations(
-                R.anim.enter_from_right,
-                R.anim.exit_to_left,
-                R.anim.enter_from_left,
-                R.anim.exit_to_right
-            )
-
-            transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
+            moveToAddLocationScreen()
         }
     }
 
-    private fun addBitChip() {
+    private fun addBitChipToBitsInSet() {
         if (add_bits_input.text.isNotEmpty()) {
             bitsInTheSetForSaving.add(add_bits_input.text.toString())
             chip_group_for_bits_in_set.addView(buildChip())
@@ -114,7 +108,7 @@ class AddBitsFragment : Fragment() {
         return chip
     }
 
-    private fun doneAddingBits() {
+    private fun closeInputAndShowInitialViewButtons() {
         bits_input_field.visibility = View.GONE
         add_bits_fab.show()
         next_button_on_add_bits.visibility = View.VISIBLE
@@ -130,5 +124,17 @@ class AddBitsFragment : Fragment() {
             add_bits_empty_state.visibility = View.GONE
             next_button_on_add_bits.isEnabled = true
         }
+    }
+
+    private fun moveToAddLocationScreen() {
+        val transaction = fragmentManager!!.beginTransaction()
+        transaction.setCustomAnimations(
+            R.anim.enter_from_right,
+            R.anim.exit_to_left,
+            R.anim.enter_from_left,
+            R.anim.exit_to_right
+        )
+
+        transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
     }
 }
