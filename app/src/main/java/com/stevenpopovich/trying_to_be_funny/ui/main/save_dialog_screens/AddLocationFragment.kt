@@ -1,8 +1,6 @@
 package com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +31,7 @@ class AddLocationFragment : Fragment() {
 
         save_set.setOnClickListener {
             SetServiceLocalSavingImpl(context!!).saveStaticSet()
-            (parentFragment as DialogFragment).slideDownDismiss(fragmentManager!!)
+            (parentFragment as DialogFragment).slideDownDismiss(childFragmentManager)
         }
     }
 
@@ -50,7 +48,7 @@ class AddLocationFragment : Fragment() {
             }
 
             override fun onError(status: Status) {
-                Log.i(TAG, "An error occurred: $status")
+                throw Exception("Autocomplete error occurred: $status")
             }
         })
     }
