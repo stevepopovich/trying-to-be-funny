@@ -11,7 +11,6 @@ import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.slideDownDismiss
 import kotlinx.android.synthetic.main.on_finished_recording_container.*
 
-
 class OnFinishRecordingContainerFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +46,6 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
             .setPositiveButton(getString(R.string.discard)) { dialog, _ ->
                 dialog.cancel()
                 slideDownDismiss(fragmentManager!!)
-
             }
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.cancel()
