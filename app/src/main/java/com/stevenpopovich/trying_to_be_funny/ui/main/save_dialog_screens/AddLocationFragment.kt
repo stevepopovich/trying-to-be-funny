@@ -1,7 +1,6 @@
 package com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +9,7 @@ import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.stevenpopovich.trying_to_be_funny.R
-import com.stevenpopovich.trying_to_be_funny.SetService
-import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
-import com.stevenpopovich.trying_to_be_funny.toPlace
+import com.stevenpopovich.trying_to_be_funny.*
 import kotlinx.android.synthetic.main.add_location.*
 
 class AddLocationFragment : Fragment() {
@@ -37,21 +33,8 @@ class AddLocationFragment : Fragment() {
             parentFragment!!.fragmentManager!!.popBackStackImmediate()
         }
 
-        view.isFocusableInTouchMode = true
-        view.requestFocus()
-        view.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                val transaction = fragmentManager!!.beginTransaction()
-                transaction.setCustomAnimations(
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right,
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left
-                )
-
-                transaction.replace(R.id.on_finished_recording_container, AddBitsFragment()).commit()
-                true
-            } else false
+        setUpFragmentBackButtonAction(view, fragmentManager!!) {
+            goBackwardsToFragment(fragmentManager!!, AddBitsFragment())
         }
     }
 
