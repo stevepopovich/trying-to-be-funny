@@ -39,7 +39,7 @@ class AddBitsFragment : Fragment() {
             getString(R.string.i_dont_think_it_went_so_bad)
         )
 
-        updateViewState()
+        updateViewStateBasedOnBitsInSet()
 
         add_bits_fab.setOnClickListener {
             bits_input_field.visibility = View.VISIBLE
@@ -85,24 +85,26 @@ class AddBitsFragment : Fragment() {
             chip_group_for_bits_in_set.addView(buildChip())
             add_bits_input.text.clear()
             next_button_on_add_bits.isEnabled = true
-            updateViewState()
+            updateViewStateBasedOnBitsInSet()
         }
     }
 
     private fun buildChip(): Chip {
-        val chip = Chip(parentFragment?.context)
-        chip.isClickable = false
-        chip.isCheckable = false
-        chip.isFocusable = false
-        chip.textSize = 18f
-        chip.text = add_bits_input.text.toString()
-        chip.textStartPadding = 14f
-        chip.isCloseIconVisible = true
+        val chip = Chip(parentFragment?.context).apply {
+            isClickable = false
+            isCheckable = false
+            isFocusable = false
+            textSize = 18f
+            textStartPadding = 14f
+            isCloseIconVisible = true
+
+            text = add_bits_input.text.toString()
+        }
 
         chip.setOnCloseIconClickListener {
             bitsInTheSetForSaving.remove(chip.text.toString())
             chip_group_for_bits_in_set.removeView(chip)
-            updateViewState()
+            updateViewStateBasedOnBitsInSet()
         }
 
         return chip
@@ -115,7 +117,7 @@ class AddBitsFragment : Fragment() {
         hideKeyboardFrom(context!!, view!!)
     }
 
-    private fun updateViewState() {
+    private fun updateViewStateBasedOnBitsInSet() {
         if (bitsInTheSetForSaving.isEmpty()) {
             whats_funny_text_view.text = jokeStrings.random()
             add_bits_empty_state.visibility = View.VISIBLE
