@@ -55,9 +55,9 @@ class AddBitsFragment : Fragment() {
     }
 
     private fun configureViewClickListeners(view: View) {
-        add_bits_fab.setOnClickListener {
+        start_adding_bits_fab_button.setOnClickListener {
             bits_input_field.visibility = View.VISIBLE
-            add_bits_fab.hide()
+            start_adding_bits_fab_button.hide()
             next_button_on_add_bits.visibility = View.GONE
             showKeyboardFrom(context!!, view)
             add_bits_input.requestFocus()
@@ -90,7 +90,7 @@ class AddBitsFragment : Fragment() {
     private fun addBitChipToBitsInSet() {
         if (add_bits_input.text.isNotEmpty()) {
             bitsInTheSetForSaving.add(add_bits_input.text.toString())
-            chip_group_for_bits_in_set.addView(buildChip())
+            chip_group_for_bits_in_set.addView(buildBitChip())
             add_bits_input.text.clear()
             next_button_on_add_bits.isEnabled = true
             updateViewStateBasedOnBitsInSet()
@@ -110,14 +110,12 @@ class AddBitsFragment : Fragment() {
 
     private fun closeInputAndShowInitialViewButtons() {
         bits_input_field.visibility = View.GONE
-        add_bits_fab.show()
+        start_adding_bits_fab_button.show()
         next_button_on_add_bits.visibility = View.VISIBLE
         hideKeyboardFrom(context!!, view!!)
     }
 
-
-
-    private fun buildChip(): Chip {
+    private fun buildBitChip(): Chip {
         val chip = Chip(parentFragment?.context).apply {
             isClickable = false
             isCheckable = false

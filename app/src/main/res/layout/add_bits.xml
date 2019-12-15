@@ -100,7 +100,7 @@
         android:layout_margin="16dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_bits_fab"
+        android:id="@+id/start_adding_bits_fab_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
