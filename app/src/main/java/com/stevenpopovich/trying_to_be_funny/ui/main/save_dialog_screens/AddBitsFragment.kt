@@ -31,52 +31,13 @@ class AddBitsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        jokeStrings = listOf(
-            getString(R.string.whats_so_funny),
-            getString(R.string.whats_the_deal_with_airline_food),
-            getString(R.string.funny_how),
-            getString(R.string.maybe_that_hecklers_right),
-            getString(R.string.i_dont_think_it_went_so_bad)
-        )
+        setUpJokeStringsForEmptyState()
 
-        updateViewStateBasedOnBitsInSet()
+        setWhatsSoFunnyRandomText()
 
-        add_bits_fab.setOnClickListener {
-            bits_input_field.visibility = View.VISIBLE
-            add_bits_fab.hide()
-            next_button_on_add_bits.visibility = View.GONE
-            showKeyboardFrom(context!!, view)
-            add_bits_input.requestFocus()
-        }
+        configureViewClickListeners(view)
 
-        add_bits_input.setOnFocusChangeListener { view, isFocused ->
-            if (!isFocused) {
-                bits_input_field.visibility = View.GONE
-                add_bits_fab.show()
-                next_button_on_add_bits.visibility = View.VISIBLE
-            }
-        }
-
-        add_bit_button.setOnClickListener {
-            addBitChipToBitsInSet()
-        }
-
-        done_adding_bits_button.setOnClickListener {
-            closeInputAndShowInitialViewButtons()
-        }
-
-        add_bits_input.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER)
-                addBitChipToBitsInSet()
-
-            true
-        }
-
-        next_button_on_add_bits.setOnClickListener {
-            SetService.setBits = bitsInTheSetForSaving
-
-            moveToAddLocationScreen()
-        }
+        makeSoftInputEnterButtonCloseInput()
     }
 
     private fun addBitChipToBitsInSet() {
@@ -119,7 +80,7 @@ class AddBitsFragment : Fragment() {
 
     private fun updateViewStateBasedOnBitsInSet() {
         if (bitsInTheSetForSaving.isEmpty()) {
-            whats_funny_text_view.text = jokeStrings.random()
+            setWhatsSoFunnyRandomText()
             add_bits_empty_state.visibility = View.VISIBLE
             next_button_on_add_bits.isEnabled = false
         } else {
@@ -138,5 +99,52 @@ class AddBitsFragment : Fragment() {
         )
 
         transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
+    }
+
+    private fun setUpJokeStringsForEmptyState() {
+        jokeStrings = listOf(
+            getString(R.string.whats_so_funny),
+            getString(R.string.whats_the_deal_with_airline_food),
+            getString(R.string.funny_how),
+            getString(R.string.maybe_that_hecklers_right),
+            getString(R.string.i_dont_think_it_went_so_bad)
+        )
+    }
+
+    private fun configureViewClickListeners(view: View) {
+        add_bits_fab.setOnClickListener {
+            bits_input_field.visibility = View.VISIBLE
+            add_bits_fab.hide()
+            next_button_on_add_bits.visibility = View.GONE
+            showKeyboardFrom(context!!, view)
+            add_bits_input.requestFocus()
+        }
+
+        add_bit_button.setOnClickListener {
+            addBitChipToBitsInSet()
+        }
+
+        done_adding_bits_button.setOnClickListener {
+            closeInputAndShowInitialViewButtons()
+        }
+
+        next_button_on_add_bits.setOnClickListener {
+            SetService.setBits = bitsInTheSetForSaving
+
+            moveToAddLocationScreen()
+        }
+    }
+
+    private fun setWhatsSoFunnyRandomText() {
+        whats_funny_text_view.text = jokeStrings.random()
+    }
+
+    private fun makeSoftInputEnterButtonCloseInput() {
+        add_bits_input.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER)
+                closeInputAndShowInitialViewButtons()
+
+            false
+        }
     }
 }
