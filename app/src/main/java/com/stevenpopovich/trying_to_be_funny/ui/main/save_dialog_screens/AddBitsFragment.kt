@@ -56,7 +56,7 @@ class AddBitsFragment : Fragment() {
 
     private fun configureViewClickListeners(view: View) {
         start_adding_bits_fab_button.setOnClickListener {
-            bits_input_field.visibility = View.VISIBLE
+            add_bits_input_container.visibility = View.VISIBLE
             start_adding_bits_fab_button.hide()
             next_button_on_add_bits.visibility = View.GONE
             showKeyboardFrom(context!!, view)
@@ -109,7 +109,7 @@ class AddBitsFragment : Fragment() {
     }
 
     private fun closeInputAndShowInitialViewButtons() {
-        bits_input_field.visibility = View.GONE
+        add_bits_input_container.visibility = View.GONE
         start_adding_bits_fab_button.show()
         next_button_on_add_bits.visibility = View.VISIBLE
         hideKeyboardFrom(context!!, view!!)
