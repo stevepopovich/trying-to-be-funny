@@ -18,8 +18,6 @@ class AddBitsFragment : Fragment() {
 
     private val bitsInTheSetForSaving = mutableListOf<String>()
 
-    private val disposeBag = CompositeDisposable()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,19 +28,6 @@ class AddBitsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        disposeBag.add(
-            KeyboardManager(activity!!).status().map {
-                when (it) {
-                    KeyboardStatus.CLOSED -> {
-                        bits_input_field.visibility = View.GONE
-                        add_bits_fab.show()
-                        next_button_on_add_bits.visibility = View.VISIBLE
-                    }
-                    else -> {}
-                }
-            }.subscribe()
-        )
 
         jokeStrings = listOf(
             getString(R.string.whats_so_funny),
