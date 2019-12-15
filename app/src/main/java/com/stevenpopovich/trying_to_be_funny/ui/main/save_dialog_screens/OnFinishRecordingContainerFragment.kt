@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.DialogFragment
 import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.slideDownDismiss
+import kotlinx.android.synthetic.main.on_finished_recording_container.*
 
 
 class OnFinishRecordingContainerFragment : DialogFragment() {
@@ -24,13 +24,12 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val toolbar = view.findViewById<Toolbar>(R.id.dialog_toolbar)
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
-        toolbar.setNavigationOnClickListener {
+        dialog_toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
+        dialog_toolbar.setNavigationOnClickListener {
             showAreYouSureDialog()
         }
-        toolbar.title = getString(R.string.save_set)
-        toolbar.setTitleTextColor(getColor(context!!, R.color.white))
+        dialog_toolbar.title = getString(R.string.add_bits)
+        dialog_toolbar.setTitleTextColor(getColor(context!!, R.color.white))
 
         val childFragment = AddBitsFragment()
 

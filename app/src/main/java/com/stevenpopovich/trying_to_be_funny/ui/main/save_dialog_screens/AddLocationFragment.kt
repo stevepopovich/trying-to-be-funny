@@ -14,6 +14,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.stevenpopovich.trying_to_be_funny.*
 import kotlinx.android.synthetic.main.add_location.*
+import kotlinx.android.synthetic.main.on_finished_recording_container.*
 
 
 class AddLocationFragment : Fragment() {
@@ -27,6 +28,8 @@ class AddLocationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dialog_toolbar.title = getString(R.string.add_a_location)
 
         val autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.places_autocomplete) as AutocompleteSupportFragment
