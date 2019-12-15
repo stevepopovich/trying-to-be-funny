@@ -5,19 +5,13 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
-import com.stevenpopovich.trying_to_be_funny.R
-import com.stevenpopovich.trying_to_be_funny.SetService
-import com.stevenpopovich.trying_to_be_funny.hideKeyboardFrom
-import com.stevenpopovich.trying_to_be_funny.showKeyboardFrom
+import com.stevenpopovich.trying_to_be_funny.*
 import kotlinx.android.synthetic.main.add_bits.*
 
 class AddBitsFragment : Fragment() {
     private lateinit var jokeStrings: List<String>
-
-    private val nextFragment = AddLocationFragment()
 
     private val bitsInTheSetForSaving = mutableListOf<String>()
 
@@ -45,25 +39,8 @@ class AddBitsFragment : Fragment() {
             addBitChipToBitsInSet()
         }
 
-        view.isFocusableInTouchMode = true
-        view.requestFocus()
-        view.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                val dialogBuilder = AlertDialog.Builder(context!!)
-
-                dialogBuilder
-                    .setMessage(getString(R.string.saving_set_dialog_title))
-                    .setPositiveButton(getString(R.string.discard)) { dialog, _ ->
-                        dialog.cancel()
-                        parentFragment!!.fragmentManager!!.popBackStackImmediate()
-                    }
-                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                        dialog.cancel()
-                    }
-                    .create()
-                    .show()
-                true
-            } else false
+        setUpFragmentBackButtonAction(view) {
+            showAreYouSureDialog()
         }
     }
 
@@ -164,14 +141,10 @@ class AddBitsFragment : Fragment() {
     }
 
     private fun moveToAddLocationScreen() {
-        val transaction = fragmentManager!!.beginTransaction()
-        transaction.setCustomAnimations(
-            R.anim.enter_from_right,
-            R.anim.exit_to_left,
-            R.anim.enter_from_left,
-            R.anim.exit_to_right
-        )
+        goForwardsToFragment(fragmentManager!!, AddLocationFragment())
+    }
 
-        transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
+    private fun showAreYouSureDialog() {
+        showAreYouSureDialog(this, parentFragment!!.fragmentManager!!)
     }
 }

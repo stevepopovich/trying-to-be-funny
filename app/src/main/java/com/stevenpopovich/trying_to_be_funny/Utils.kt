@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
@@ -20,7 +21,7 @@ fun showKeyboardFrom(context: Context, view: View) {
     inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
 }
 
-fun setUpFragmentBackButtonAction(mainFragmentView: View, fragmentManager: FragmentManager, action: () -> Any) {
+fun setUpFragmentBackButtonAction(mainFragmentView: View, action: () -> Any) {
     mainFragmentView.isFocusableInTouchMode = true
     mainFragmentView.requestFocus()
     mainFragmentView.setOnKeyListener { _, keyCode, _ ->
@@ -32,14 +33,18 @@ fun setUpFragmentBackButtonAction(mainFragmentView: View, fragmentManager: Fragm
     }
 }
 
-fun goBackwardsToFragment(fragmentManager: FragmentManager, fragment: Fragment) {
-    val transaction = fragmentManager.beginTransaction()
-    transaction.setCustomAnimations(
-        R.anim.enter_from_left,
-        R.anim.exit_to_right,
-        R.anim.enter_from_right,
-        R.anim.exit_to_left
-    )
+fun showAreYouSureDialog(fragment: Fragment, fragmentManager: FragmentManager) {
+    val dialogBuilder = AlertDialog.Builder(context!!)
 
-    transaction.replace(R.id.on_finished_recording_container, fragment).commit()
+    dialogBuilder
+        .setMessage(fragment.getString(R.string.saving_set_dialog_title))
+        .setPositiveButton(fragment.getString(R.string.discard)) { dialog, _ ->
+            dialog.cancel()
+            fragmentManager.popBackStackImmediate()
+        }
+        .setNegativeButton(fragment.getString(R.string.cancel)) { dialog, _ ->
+            dialog.cancel()
+        }
+        .create()
+        .show()
 }

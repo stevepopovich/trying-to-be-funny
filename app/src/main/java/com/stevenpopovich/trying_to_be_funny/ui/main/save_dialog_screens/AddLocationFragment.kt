@@ -33,7 +33,7 @@ class AddLocationFragment : Fragment() {
             parentFragment!!.fragmentManager!!.popBackStackImmediate()
         }
 
-        setUpFragmentBackButtonAction(view, fragmentManager!!) {
+        setUpFragmentBackButtonAction(view) {
             goBackwardsToFragment(fragmentManager!!, AddBitsFragment())
         }
     }
