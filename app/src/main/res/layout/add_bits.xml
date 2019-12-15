@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tool="http://schemas.android.com/tools"
-    android:layout_marginTop="56dp">
+    android:layout_marginTop="@dimen/dialog_toolbar_height">
 
     <!-- Bits Input Container -->
     <androidx.constraintlayout.widget.ConstraintLayout
