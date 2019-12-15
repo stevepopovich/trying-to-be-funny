@@ -40,67 +40,6 @@ class AddBitsFragment : Fragment() {
         makeSoftInputEnterButtonCloseInput()
     }
 
-    private fun addBitChipToBitsInSet() {
-        if (add_bits_input.text.isNotEmpty()) {
-            bitsInTheSetForSaving.add(add_bits_input.text.toString())
-            chip_group_for_bits_in_set.addView(buildChip())
-            add_bits_input.text.clear()
-            next_button_on_add_bits.isEnabled = true
-            updateViewStateBasedOnBitsInSet()
-        }
-    }
-
-    private fun buildChip(): Chip {
-        val chip = Chip(parentFragment?.context).apply {
-            isClickable = false
-            isCheckable = false
-            isFocusable = false
-            textSize = 18f
-            textStartPadding = 14f
-            isCloseIconVisible = true
-
-            text = add_bits_input.text.toString()
-        }
-
-        chip.setOnCloseIconClickListener {
-            bitsInTheSetForSaving.remove(chip.text.toString())
-            chip_group_for_bits_in_set.removeView(chip)
-            updateViewStateBasedOnBitsInSet()
-        }
-
-        return chip
-    }
-
-    private fun closeInputAndShowInitialViewButtons() {
-        bits_input_field.visibility = View.GONE
-        add_bits_fab.show()
-        next_button_on_add_bits.visibility = View.VISIBLE
-        hideKeyboardFrom(context!!, view!!)
-    }
-
-    private fun updateViewStateBasedOnBitsInSet() {
-        if (bitsInTheSetForSaving.isEmpty()) {
-            setWhatsSoFunnyRandomText()
-            add_bits_empty_state.visibility = View.VISIBLE
-            next_button_on_add_bits.isEnabled = false
-        } else {
-            add_bits_empty_state.visibility = View.GONE
-            next_button_on_add_bits.isEnabled = true
-        }
-    }
-
-    private fun moveToAddLocationScreen() {
-        val transaction = fragmentManager!!.beginTransaction()
-        transaction.setCustomAnimations(
-            R.anim.enter_from_right,
-            R.anim.exit_to_left,
-            R.anim.enter_from_left,
-            R.anim.exit_to_right
-        )
-
-        transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
-    }
-
     private fun setUpJokeStringsForEmptyState() {
         jokeStrings = listOf(
             getString(R.string.whats_so_funny),
@@ -109,6 +48,10 @@ class AddBitsFragment : Fragment() {
             getString(R.string.maybe_that_hecklers_right),
             getString(R.string.i_dont_think_it_went_so_bad)
         )
+    }
+
+    private fun setWhatsSoFunnyRandomText() {
+        whats_funny_text_view.text = jokeStrings.random()
     }
 
     private fun configureViewClickListeners(view: View) {
@@ -135,10 +78,6 @@ class AddBitsFragment : Fragment() {
         }
     }
 
-    private fun setWhatsSoFunnyRandomText() {
-        whats_funny_text_view.text = jokeStrings.random()
-    }
-
     private fun makeSoftInputEnterButtonCloseInput() {
         add_bits_input.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER)
@@ -146,5 +85,68 @@ class AddBitsFragment : Fragment() {
 
             false
         }
+    }
+
+    private fun addBitChipToBitsInSet() {
+        if (add_bits_input.text.isNotEmpty()) {
+            bitsInTheSetForSaving.add(add_bits_input.text.toString())
+            chip_group_for_bits_in_set.addView(buildChip())
+            add_bits_input.text.clear()
+            next_button_on_add_bits.isEnabled = true
+            updateViewStateBasedOnBitsInSet()
+        }
+    }
+
+    private fun updateViewStateBasedOnBitsInSet() {
+        if (bitsInTheSetForSaving.isEmpty()) {
+            setWhatsSoFunnyRandomText()
+            add_bits_empty_state.visibility = View.VISIBLE
+            next_button_on_add_bits.isEnabled = false
+        } else {
+            add_bits_empty_state.visibility = View.GONE
+            next_button_on_add_bits.isEnabled = true
+        }
+    }
+
+    private fun closeInputAndShowInitialViewButtons() {
+        bits_input_field.visibility = View.GONE
+        add_bits_fab.show()
+        next_button_on_add_bits.visibility = View.VISIBLE
+        hideKeyboardFrom(context!!, view!!)
+    }
+
+
+
+    private fun buildChip(): Chip {
+        val chip = Chip(parentFragment?.context).apply {
+            isClickable = false
+            isCheckable = false
+            isFocusable = false
+            textSize = 18f
+            textStartPadding = 14f
+            isCloseIconVisible = true
+
+            text = add_bits_input.text.toString()
+        }
+
+        chip.setOnCloseIconClickListener {
+            bitsInTheSetForSaving.remove(chip.text.toString())
+            chip_group_for_bits_in_set.removeView(chip)
+            updateViewStateBasedOnBitsInSet()
+        }
+
+        return chip
+    }
+
+    private fun moveToAddLocationScreen() {
+        val transaction = fragmentManager!!.beginTransaction()
+        transaction.setCustomAnimations(
+            R.anim.enter_from_right,
+            R.anim.exit_to_left,
+            R.anim.enter_from_left,
+            R.anim.exit_to_right
+        )
+
+        transaction.replace(R.id.on_finished_recording_container, nextFragment).commit()
     }
 }
