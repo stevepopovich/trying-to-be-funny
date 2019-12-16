@@ -106,9 +106,11 @@ class AddBitsFragment : Fragment() {
     private fun updateViewStateBasedOnBitsInSet() {
         if (bitsInTheSetForSaving.isEmpty()) {
             setWhatsSoFunnyRandomText()
+            add_bits_card.visibility = View.GONE
             add_bits_empty_state.visibility = View.VISIBLE
             next_button_on_add_bits.isEnabled = false
         } else {
+            add_bits_card.visibility = View.VISIBLE
             add_bits_empty_state.visibility = View.GONE
             next_button_on_add_bits.isEnabled = true
         }
