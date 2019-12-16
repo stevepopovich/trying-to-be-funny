@@ -1,7 +1,6 @@
 package com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
