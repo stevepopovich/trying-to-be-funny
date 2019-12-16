@@ -1,16 +1,15 @@
 package com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
-import com.stevenpopovich.trying_to_be_funny.R
-import com.stevenpopovich.trying_to_be_funny.SetService
-import com.stevenpopovich.trying_to_be_funny.hideKeyboardFrom
-import com.stevenpopovich.trying_to_be_funny.showKeyboardFrom
+import com.stevenpopovich.trying_to_be_funny.*
 import kotlinx.android.synthetic.main.add_bits.*
 
 class AddBitsFragment : Fragment() {
@@ -36,6 +35,17 @@ class AddBitsFragment : Fragment() {
         configureViewClickListeners(view)
 
         makeSoftInputEnterButtonCloseInput()
+
+        SetServiceLocalSavingImpl(context!!).getAllBits().observeForever {
+            val bits = it.map { it.bit }
+            val adapter = ArrayAdapter(
+                context!!,
+                android.R.layout.simple_list_item_1,
+                bits
+            )
+            add_bit_edit_text.setAdapter(adapter)
+        }
+
 
         SetService.setBits?.forEach {
             add_bit_edit_text.setText(it)

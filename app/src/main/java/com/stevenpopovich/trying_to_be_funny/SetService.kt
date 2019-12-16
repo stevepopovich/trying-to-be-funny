@@ -27,6 +27,7 @@ interface SetService {
     fun getSet(setId: SetId): Observable<StandUpSet>
     fun querySets(date: Date?, bits: List<Bit>?, location: Place?): List<StandUpSet>
     fun deleteSet(setId: SetId)
+    fun getAllBits(): LiveData<List<RoomBit>>
 }
 
 /**
@@ -109,9 +110,9 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
         throw NotImplementedError()
     }
 
-    override fun deleteSet(setId: SetId) {
-        database.setDao().deleteById(setId)
-    }
+    override fun deleteSet(setId: SetId) = database.setDao().deleteById(setId)
+
+    override fun getAllBits(): LiveData<List<RoomBit>> = database.bitDao().getAll()
 
     private fun validateStaticSet() {
         if (SetService.setBits == null)
@@ -124,9 +125,7 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
             throw SetDataInvalidError(property = "SetRecordingPath", value = SetService.setRecordingId)
     }
 
-    fun getAllSets(): LiveData<List<RoomSet>> {
-        return database.setDao().getAll()
-    }
+    fun getAllSets(): LiveData<List<RoomSet>> = database.setDao().getAll()
 }
 
 data class SetDataInvalidError(val property: String, val value: Any?): Error("$property was null or invalid! Value: $value")

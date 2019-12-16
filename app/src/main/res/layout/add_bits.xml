@@ -24,16 +24,18 @@
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/add_bit_edit_text"
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
                 android:layout_margin="8dp"
                 android:background="@color/white"
                 android:focusable="true"
+                android:paddingLeft="4dp"
                 android:focusableInTouchMode="true"
                 android:importantForAutofill="no"
                 android:inputType="textAutoComplete"
+                android:hint="@string/add_a_bit"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/add_bit_button"/>
@@ -92,6 +94,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Chip group -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/add_bits_card"
         android:layout_width="match_parent"
@@ -151,8 +154,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/start_adding_bits_fab_button"
