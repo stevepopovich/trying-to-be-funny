@@ -9,6 +9,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.SetService
+import com.stevenpopovich.trying_to_be_funny.hideKeyboardFrom
 import com.stevenpopovich.trying_to_be_funny.showAreYouSureDialog
 import kotlinx.android.synthetic.main.on_finished_recording_container.*
 
@@ -30,6 +32,11 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
             .beginTransaction()
             .replace(R.id.on_finished_recording_container, AddBitsFragment())
             .commit()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SetService.clearStaticSet()
     }
 
     private fun configureDialogToolbar() {
