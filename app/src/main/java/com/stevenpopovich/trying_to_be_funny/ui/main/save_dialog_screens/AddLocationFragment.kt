@@ -9,7 +9,10 @@ import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.stevenpopovich.trying_to_be_funny.*
+import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.SetService
+import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
+import com.stevenpopovich.trying_to_be_funny.toPlace
 import kotlinx.android.synthetic.main.add_location.*
 
 class AddLocationFragment : Fragment() {
@@ -31,10 +34,6 @@ class AddLocationFragment : Fragment() {
         save_set.setOnClickListener {
             SetServiceLocalSavingImpl(context!!).saveStaticSet()
             parentFragment!!.fragmentManager!!.popBackStackImmediate()
-        }
-
-        setUpFragmentBackButtonAction(view) {
-            goBackwardsToFragment(fragmentManager!!, AddBitsFragment())
         }
     }
 

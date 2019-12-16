@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
-import com.stevenpopovich.trying_to_be_funny.*
+import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.SetService
+import com.stevenpopovich.trying_to_be_funny.hideKeyboardFrom
+import com.stevenpopovich.trying_to_be_funny.showKeyboardFrom
 import kotlinx.android.synthetic.main.add_bits.*
 
 class AddBitsFragment : Fragment() {
@@ -35,12 +38,8 @@ class AddBitsFragment : Fragment() {
         makeSoftInputEnterButtonCloseInput()
 
         SetService.setBits?.forEach {
-            add_bits_input.setText(it)
+            add_bit_edit_text.setText(it)
             addBitChipToBitsInSet()
-        }
-
-        setUpFragmentBackButtonAction(view) {
-            showAreYouSureDialog()
         }
     }
 
@@ -60,11 +59,11 @@ class AddBitsFragment : Fragment() {
 
     private fun configureViewClickListeners(view: View) {
         start_adding_bits_fab_button.setOnClickListener {
-            add_bits_input_container.visibility = View.VISIBLE
+            add_bits_container.visibility = View.VISIBLE
             start_adding_bits_fab_button.hide()
             next_button_on_add_bits.visibility = View.GONE
             showKeyboardFrom(context!!, view)
-            add_bits_input.requestFocus()
+            add_bit_edit_text.requestFocus()
         }
 
         add_bit_button.setOnClickListener {
@@ -83,19 +82,22 @@ class AddBitsFragment : Fragment() {
     }
 
     private fun makeSoftInputEnterButtonCloseInput() {
-        add_bits_input.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER)
-                closeInputAndShowInitialViewButtons()
-
-            false
+        add_bit_edit_text.setOnKeyListener { _, keyCode, _ ->
+            when (keyCode) {
+                KeyEvent.KEYCODE_ENTER -> {
+                    closeInputAndShowInitialViewButtons()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
     private fun addBitChipToBitsInSet() {
-        if (add_bits_input.text.isNotEmpty()) {
-            bitsInTheSetForSaving.add(add_bits_input.text.toString())
+        if (add_bit_edit_text.text.isNotEmpty()) {
+            bitsInTheSetForSaving.add(add_bit_edit_text.text.toString())
             chip_group_for_bits_in_set.addView(buildBitChip())
-            add_bits_input.text.clear()
+            add_bit_edit_text.text.clear()
             next_button_on_add_bits.isEnabled = true
             updateViewStateBasedOnBitsInSet()
         }
@@ -113,7 +115,7 @@ class AddBitsFragment : Fragment() {
     }
 
     private fun closeInputAndShowInitialViewButtons() {
-        add_bits_input_container.visibility = View.GONE
+        add_bits_container.visibility = View.GONE
         start_adding_bits_fab_button.show()
         next_button_on_add_bits.visibility = View.VISIBLE
         hideKeyboardFrom(context!!, view!!)
@@ -128,7 +130,7 @@ class AddBitsFragment : Fragment() {
             textStartPadding = 14f
             isCloseIconVisible = true
 
-            text = add_bits_input.text.toString()
+            text = add_bit_edit_text.text.toString()
         }
 
         chip.setOnCloseIconClickListener {
@@ -142,9 +144,5 @@ class AddBitsFragment : Fragment() {
 
     private fun moveToAddLocationScreen() {
         goForwardsToFragment(fragmentManager!!, AddLocationFragment())
-    }
-
-    private fun showAreYouSureDialog() {
-        showAreYouSureDialog(this, parentFragment!!.fragmentManager!!, context!!)
     }
 }

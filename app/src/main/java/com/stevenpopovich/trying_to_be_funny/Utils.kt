@@ -2,7 +2,6 @@ package com.stevenpopovich.trying_to_be_funny
 
 import android.app.Activity
 import android.content.Context
-import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
@@ -19,18 +18,6 @@ fun showKeyboardFrom(context: Context, view: View) {
     val inputMethodManager: InputMethodManager =
         context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-}
-
-fun setUpFragmentBackButtonAction(mainFragmentView: View, action: () -> Any) {
-    mainFragmentView.isFocusableInTouchMode = true
-    mainFragmentView.requestFocus()
-    mainFragmentView.setOnKeyListener { _, keyCode, _ ->
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            action()
-
-            true
-        } else false
-    }
 }
 
 fun showAreYouSureDialog(fragment: Fragment, fragmentManager: FragmentManager, context: Context) {
