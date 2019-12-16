@@ -35,21 +35,7 @@ class AddBitsFragment : Fragment() {
 
         makeSoftInputEnterButtonCloseInput()
 
-        SetServiceLocalSavingImpl(context!!).getAllBits().observeForever {
-            val bits = it.map { it.bit }
-            val adapter = ArrayAdapter(
-                context!!,
-                android.R.layout.simple_list_item_1,
-                bits
-            )
-            add_bit_edit_text.setAdapter(adapter)
-        }
-
-
-        SetService.setBits?.forEach {
-            add_bit_edit_text.setText(it)
-            addBitChipToBitsInSet()
-        }
+        setUpAddBitsAutocomplete()
     }
 
     private fun setUpJokeStringsForEmptyState() {
@@ -155,5 +141,17 @@ class AddBitsFragment : Fragment() {
 
     private fun moveToAddLocationScreen() {
         goForwardsToFragment(fragmentManager!!, AddLocationFragment())
+    }
+
+    private fun setUpAddBitsAutocomplete() {
+        SetServiceLocalSavingImpl(context!!).getAllBits().observeForever {
+            val bits = it.map { it.bit }
+            val adapter = ArrayAdapter(
+                context!!,
+                android.R.layout.simple_list_item_1,
+                bits
+            )
+            add_bit_edit_text.setAdapter(adapter)
+        }
     }
 }
