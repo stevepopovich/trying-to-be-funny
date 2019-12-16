@@ -11,6 +11,8 @@ const val bitTableName = "bit_table"
 const val setTableName = "set_table"
 const val bitSetJoinTable = "set_bit_join"
 
+const val roomDatabaseVersion = 2
+
 private class RoomSetConverters {
     @TypeConverter
     fun fromTimestamp(value: Long): Date {
@@ -33,7 +35,7 @@ private class RoomSetConverters {
     }
 }
 
-@Database(entities = [RoomSet::class, RoomPlace::class, RoomBit::class, BitSetJoin::class], version = 1)
+@Database(entities = [RoomSet::class, RoomPlace::class, RoomBit::class, BitSetJoin::class], version = roomDatabaseVersion)
 @TypeConverters(RoomSetConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun setDao(): SetDao
