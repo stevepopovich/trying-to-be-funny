@@ -33,8 +33,8 @@ fun setUpFragmentBackButtonAction(mainFragmentView: View, action: () -> Any) {
     }
 }
 
-fun showAreYouSureDialog(fragment: Fragment, fragmentManager: FragmentManager) {
-    val dialogBuilder = AlertDialog.Builder(context!!)
+fun showAreYouSureDialog(fragment: Fragment, fragmentManager: FragmentManager, context: Context) {
+    val dialogBuilder = AlertDialog.Builder(context)
 
     dialogBuilder
         .setMessage(fragment.getString(R.string.saving_set_dialog_title))

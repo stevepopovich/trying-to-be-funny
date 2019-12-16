@@ -32,7 +32,7 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
     }
 
     private fun showAreYouSureDialog() {
-        com.stevenpopovich.trying_to_be_funny.showAreYouSureDialog(this, fragmentManager!!)
+        com.stevenpopovich.trying_to_be_funny.showAreYouSureDialog(this, fragmentManager!!, context!!)
     }
 
     private fun configureDialogToolbar() {

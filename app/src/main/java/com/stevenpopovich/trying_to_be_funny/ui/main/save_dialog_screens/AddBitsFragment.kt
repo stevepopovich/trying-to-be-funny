@@ -145,6 +145,6 @@ class AddBitsFragment : Fragment() {
     }
 
     private fun showAreYouSureDialog() {
-        showAreYouSureDialog(this, parentFragment!!.fragmentManager!!)
+        showAreYouSureDialog(this, parentFragment!!.fragmentManager!!, context!!)
     }
 }
