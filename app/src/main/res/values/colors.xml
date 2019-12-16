@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="light_grey">#D3D3D3</color>
+    <color name="dark_grey">#313131</color>
     <color name="colorAccent">#C2A100</color> <!-- gold -->
 </resources>
