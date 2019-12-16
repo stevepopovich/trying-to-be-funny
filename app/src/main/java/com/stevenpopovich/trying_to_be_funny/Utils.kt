@@ -40,6 +40,7 @@ fun showAreYouSureDialog(fragment: Fragment, fragmentManager: FragmentManager, c
         .setMessage(fragment.getString(R.string.saving_set_dialog_title))
         .setPositiveButton(fragment.getString(R.string.discard)) { dialog, _ ->
             dialog.cancel()
+            SetService.clearStaticSet()
             fragmentManager.popBackStackImmediate()
         }
         .setNegativeButton(fragment.getString(R.string.cancel)) { dialog, _ ->

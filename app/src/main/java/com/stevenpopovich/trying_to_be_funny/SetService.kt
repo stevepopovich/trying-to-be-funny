@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import com.stevenpopovich.trying_to_be_funny.SetService.Companion.clearStaticSet
 import com.stevenpopovich.trying_to_be_funny.room.*
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -15,10 +16,14 @@ interface SetService {
         var setBits: List<Bit>? = null
         var setLocation: Place? = null
         var setRecordingId: RecordingId? = null
+        fun clearStaticSet() {
+            setBits = null
+            setLocation = null
+            setRecordingId = null
+        }
     }
 
     fun saveStaticSet()
-    fun clearStaticSet()
     fun getSet(setId: SetId): Observable<StandUpSet>
     fun querySets(date: Date?, bits: List<Bit>?, location: Place?): List<StandUpSet>
     fun deleteSet(setId: SetId)
@@ -74,12 +79,6 @@ class SetServiceLocalSavingImpl(context: Context) : SetService {
 
             clearStaticSet()
         }
-    }
-
-    override fun clearStaticSet() {
-        SetService.setBits = null
-        SetService.setLocation = null
-        SetService.setRecordingId = null
     }
 
     override fun getSet(setId: SetId): Observable<StandUpSet> {
