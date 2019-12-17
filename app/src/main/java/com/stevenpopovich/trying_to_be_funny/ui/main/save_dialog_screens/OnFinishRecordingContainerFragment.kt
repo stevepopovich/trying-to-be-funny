@@ -1,17 +1,17 @@
 package com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.SetService
-import com.stevenpopovich.trying_to_be_funny.hideKeyboardFrom
-import com.stevenpopovich.trying_to_be_funny.showAreYouSureDialog
 import kotlinx.android.synthetic.main.on_finished_recording_container.*
 
 class OnFinishRecordingContainerFragment : DialogFragment() {
@@ -47,6 +47,23 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
         dialog_toolbar.title = getString(R.string.save_set)
         dialog_toolbar.setTitleTextColor(ContextCompat.getColor(context!!, R.color.white))
     }
+}
+
+fun showAreYouSureDialog(fragment: Fragment, fragmentManager: FragmentManager, context: Context) {
+    val dialogBuilder = AlertDialog.Builder(context)
+
+    dialogBuilder
+        .setMessage(fragment.getString(R.string.saving_set_dialog_title))
+        .setPositiveButton(fragment.getString(R.string.discard)) { dialog, _ ->
+            dialog.cancel()
+            SetService.clearStaticSet()
+            fragmentManager.popBackStackImmediate()
+        }
+        .setNegativeButton(fragment.getString(R.string.cancel)) { dialog, _ ->
+            dialog.cancel()
+        }
+        .create()
+        .show()
 }
 
 fun goForwardsToFragment(fragmentManager: FragmentManager, fragment: Fragment) {

@@ -27,8 +27,6 @@ class AddLocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //dialog_toolbar.title = getString(R.string.add_a_location)
-
         setUpLocationAutoCompleteFragment()
 
         save_set.setOnClickListener {
