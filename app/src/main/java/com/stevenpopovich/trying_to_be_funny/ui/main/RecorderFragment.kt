@@ -4,11 +4,12 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -40,8 +41,11 @@ class RecorderFragment : Fragment() {
             stopRecording()
         }
 
-        button_pause_recording.setOnClickListener {
-            togglePause()
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            button_pause_recording.visibility = View.VISIBLE
+            button_pause_recording.setOnClickListener {
+                togglePause()
+            }
         }
 
         //TODO temporary for testing
@@ -89,22 +93,6 @@ class RecorderFragment : Fragment() {
         }
     }
 
-    private fun togglePause() {
-        if (isRecording) {
-            if (!recordingPaused) {
-                pauseRecording()
-            } else {
-                resumeRecording()
-            }
-        }
-    }
-
-    private fun resumeRecording() {
-        mediaRecorder.resume()
-        button_pause_recording.text = getString(R.string.pause)
-        recordingPaused = false
-    }
-
     private fun resetRecorder() {
         mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -118,6 +106,25 @@ class RecorderFragment : Fragment() {
         mediaRecorder.prepare()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun togglePause() {
+        if (isRecording) {
+            if (!recordingPaused) {
+                pauseRecording()
+            } else {
+                resumeRecording()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun resumeRecording() {
+        mediaRecorder.resume()
+        button_pause_recording.text = getString(R.string.pause)
+        recordingPaused = false
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun pauseRecording() {
         mediaRecorder.pause()
         recordingPaused = true
@@ -126,10 +133,10 @@ class RecorderFragment : Fragment() {
 
     private fun getPermissions() {
         if (ContextCompat.checkSelfPermission(
-                activity!!.applicationContext,
+                context!!,
                 Manifest.permission.RECORD_AUDIO
             ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                activity!!.applicationContext,
+                context!!,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
