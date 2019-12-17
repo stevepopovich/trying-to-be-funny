@@ -44,7 +44,7 @@
                 android:id="@+id/add_bit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_black_24dp"
+                app:srcCompat="@drawable/ic_add_black_24dp"
                 app:layout_constraintEnd_toStartOf="@+id/done_adding_bits_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +53,7 @@
                 android:id="@+id/done_adding_bits_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_check_black_24dp"
+                app:srcCompat="@drawable/ic_check_black_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -84,7 +84,7 @@
             android:id="@+id/imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_karaoke"
+            app:srcCompat="@drawable/ic_karaoke"
             android:tint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -115,13 +115,14 @@
                 android:id="@+id/location_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_bits"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:textAlignment="center"
                 android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif-medium"
+                android:text="@string/add_bits"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -138,19 +139,19 @@
                 android:id="@+id/chip_group_for_bits_in_set"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
+                android:animateLayoutChanges="true"
                 android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider"
-                android:animateLayoutChanges="true" />
+                app:layout_constraintTop_toBottomOf="@id/divider" />
 
             <View
                 android:id="@+id/bottom_pad"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/chip_group_for_bits_in_set"
-                />
+                app:layout_constraintTop_toBottomOf="@id/chip_group_for_bits_in_set" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -159,10 +160,11 @@
         android:id="@+id/start_adding_bits_fab_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:src="@drawable/ic_add_black_24dp"
+        android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/next_button_on_add_bits"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <Button
         android:id="@+id/next_button_on_add_bits"
