@@ -14,12 +14,6 @@ fun hideKeyboardFrom(context: Context, view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun showKeyboardFrom(context: Context, view: View) {
-    val inputMethodManager: InputMethodManager =
-        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-}
-
 fun showAreYouSureDialog(fragment: Fragment, fragmentManager: FragmentManager, context: Context) {
     val dialogBuilder = AlertDialog.Builder(context)
 

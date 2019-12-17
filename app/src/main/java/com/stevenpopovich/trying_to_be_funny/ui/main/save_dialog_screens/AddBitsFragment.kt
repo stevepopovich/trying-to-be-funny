@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
-import com.stevenpopovich.trying_to_be_funny.*
+import com.stevenpopovich.trying_to_be_funny.R
+import com.stevenpopovich.trying_to_be_funny.SetService
+import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
+import com.stevenpopovich.trying_to_be_funny.hideKeyboardFrom
 import kotlinx.android.synthetic.main.add_bits.*
 
 class AddBitsFragment : Fragment() {
@@ -31,7 +34,7 @@ class AddBitsFragment : Fragment() {
 
         setWhatsSoFunnyRandomText()
 
-        configureViewClickListeners(view)
+        configureViewClickListeners()
 
         makeSoftInputEnterButtonCloseInput()
 
@@ -52,12 +55,11 @@ class AddBitsFragment : Fragment() {
         whats_funny_text_view.text = jokeStrings.random()
     }
 
-    private fun configureViewClickListeners(view: View) {
+    private fun configureViewClickListeners() {
         start_adding_bits_fab_button.setOnClickListener {
             add_bits_container.visibility = View.VISIBLE
             start_adding_bits_fab_button.hide()
             next_button_on_add_bits.visibility = View.GONE
-            showKeyboardFrom(context!!, view)
             add_bit_edit_text.requestFocus()
         }
 
@@ -72,7 +74,7 @@ class AddBitsFragment : Fragment() {
         next_button_on_add_bits.setOnClickListener {
             SetService.setBits = bitsInTheSetForSaving
 
-            moveToAddLocationScreen()
+            goForwardsToFragment(fragmentManager!!, AddLocationFragment())
         }
     }
 
@@ -99,16 +101,20 @@ class AddBitsFragment : Fragment() {
     }
 
     private fun updateViewStateBasedOnBitsInSet() {
-        if (bitsInTheSetForSaving.isEmpty()) {
-            setWhatsSoFunnyRandomText()
-            add_bits_card.visibility = View.GONE
-            add_bits_empty_state.visibility = View.VISIBLE
-            next_button_on_add_bits.isEnabled = false
-        } else {
-            add_bits_card.visibility = View.VISIBLE
-            add_bits_empty_state.visibility = View.GONE
-            next_button_on_add_bits.isEnabled = true
-        }
+        if (bitsInTheSetForSaving.isEmpty()) showEmptyState() else showBits()
+    }
+
+    private fun showEmptyState() {
+        setWhatsSoFunnyRandomText()
+        add_bits_card.visibility = View.GONE
+        add_bits_empty_state.visibility = View.VISIBLE
+        next_button_on_add_bits.isEnabled = false
+    }
+
+    private fun showBits() {
+        add_bits_card.visibility = View.VISIBLE
+        add_bits_empty_state.visibility = View.GONE
+        next_button_on_add_bits.isEnabled = true
     }
 
     private fun closeInputAndShowInitialViewButtons() {
@@ -137,10 +143,6 @@ class AddBitsFragment : Fragment() {
         }
 
         return chip
-    }
-
-    private fun moveToAddLocationScreen() {
-        goForwardsToFragment(fragmentManager!!, AddLocationFragment())
     }
 
     private fun setUpAddBitsAutocomplete() {
