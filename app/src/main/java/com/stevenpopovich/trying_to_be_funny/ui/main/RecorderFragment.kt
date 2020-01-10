@@ -1,7 +1,6 @@
 package com.stevenpopovich.trying_to_be_funny.ui.main
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
@@ -10,12 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.SetService
 import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
+import com.stevenpopovich.trying_to_be_funny.getNotGrantedPermissions
 import com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens.OnFinishRecordingContainerFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
@@ -132,20 +130,8 @@ class RecorderFragment : Fragment() {
     }
 
     private fun getPermissions() {
-        if (ContextCompat.checkSelfPermission(
-                context!!,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                context!!,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            val permissions = arrayOf(
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            ActivityCompat.requestPermissions(activity!!, permissions, 0)
-        }
+        getNotGrantedPermissions(context!!, activity!!,
+            listOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE))
     }
 
     private fun showSaveProcessDialog() {

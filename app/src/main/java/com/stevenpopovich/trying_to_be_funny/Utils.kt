@@ -2,11 +2,34 @@ package com.stevenpopovich.trying_to_be_funny
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 fun hideKeyboardFrom(context: Context, view: View) {
     val inputMethodManager: InputMethodManager =
         context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun getNotGrantedPermissions(context: Context, activity: Activity, permissionsToGet: List<String>) {
+    val permissionsNotGranted = mutableListOf<String>()
+
+    permissionsToGet.forEach {
+        if (ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED)
+            permissionsNotGranted.add(it)
+    }
+
+    if (permissionsNotGranted.isNotEmpty())
+        ActivityCompat.requestPermissions(activity, permissionsNotGranted.toTypedArray() , 0)
+}
+
+fun isLocationEnabled(context: Context): Boolean {
+    val locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+        LocationManager.NETWORK_PROVIDER
+    )
 }

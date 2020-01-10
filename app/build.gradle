@@ -39,7 +39,7 @@ repositories {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
-def room_version = "2.2.2"
+def room_version = "2.2.3"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -60,5 +60,5 @@ dependencies {
     implementation 'com.github.YvesCheung:LiveDataToRxJava:v1.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.google.android.libraries.places:places:2.1.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'\
 }
