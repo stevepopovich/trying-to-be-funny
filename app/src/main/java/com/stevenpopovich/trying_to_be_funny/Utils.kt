@@ -25,3 +25,12 @@ fun askForNotGrantedPermissions(context: Context, activity: Activity, permission
     if (permissionsNotGranted.isNotEmpty())
         ActivityCompat.requestPermissions(activity, permissionsNotGranted.toTypedArray() , 0)
 }
+
+fun hasAllPermissions(context: Context, vararg permissions: String): Boolean {
+    permissions.forEach {
+        if (ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED)
+            return false
+    }
+
+    return true
+}

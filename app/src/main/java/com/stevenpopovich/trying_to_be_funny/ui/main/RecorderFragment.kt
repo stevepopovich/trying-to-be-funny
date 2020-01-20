@@ -9,11 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.stevenpopovich.trying_to_be_funny.R
-import com.stevenpopovich.trying_to_be_funny.SetService
-import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
-import com.stevenpopovich.trying_to_be_funny.askForNotGrantedPermissions
+import com.stevenpopovich.trying_to_be_funny.*
 import com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens.OnFinishRecordingContainerFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
@@ -29,7 +27,7 @@ class RecorderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getPermissions()
+        getNeededRecordingPermissions()
 
         button_start_recording.setOnClickListener {
             startRecording()
@@ -69,12 +67,15 @@ class RecorderFragment : Fragment() {
     }
 
     private fun startRecording() {
-        resetRecorder()
-        mediaRecorder.start()
-        isRecording = true
-        button_pause_recording.isEnabled = true
-        button_stop_recording.isEnabled = true
-        button_start_recording.isEnabled = false
+        if (hasAllPermissions(context!!, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            resetRecorder()
+            mediaRecorder.start()
+            isRecording = true
+            button_pause_recording.isEnabled = true
+            button_stop_recording.isEnabled = true
+            button_start_recording.isEnabled = false
+        } else
+            showYouDontHavePermissionsDialog()
     }
 
     private fun stopRecording() {
@@ -129,7 +130,7 @@ class RecorderFragment : Fragment() {
         button_pause_recording.text = getString(R.string.resume)
     }
 
-    private fun getPermissions() {
+    private fun getNeededRecordingPermissions() {
         askForNotGrantedPermissions(context!!, activity!!,
             listOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE))
     }
@@ -145,5 +146,14 @@ class RecorderFragment : Fragment() {
             .addToBackStack(null)
 
         transaction.commit()
+    }
+
+    private fun showYouDontHavePermissionsDialog() {
+        AlertDialog.Builder(activity!!)
+            .setTitle(R.string.dont_have_permissions_to_record_and_save_title)
+            .setMessage(R.string.dont_have_permissions_to_record_and_save_body)
+            .setPositiveButton(R.string.okay) { _, _ ->
+                getNeededRecordingPermissions()
+            }
     }
 }
