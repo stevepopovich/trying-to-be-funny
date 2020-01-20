@@ -37,12 +37,7 @@ class RecorderFragment : Fragment() {
             stopRecording()
         }
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-            button_pause_recording.visibility = View.VISIBLE
-            button_pause_recording.setOnClickListener {
-                togglePause()
-            }
-        }
+        showPauseButtonAboveVersionCodeN()
 
         //TODO temporary for testing
         replay_first_recording.setOnClickListener {
@@ -156,5 +151,14 @@ class RecorderFragment : Fragment() {
                 getNeededRecordingPermissions()
             }
             .show()
+    }
+
+    private fun showPauseButtonAboveVersionCodeN() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            button_pause_recording.visibility = View.VISIBLE
+            button_pause_recording.setOnClickListener {
+                togglePause()
+            }
+        }
     }
 }
