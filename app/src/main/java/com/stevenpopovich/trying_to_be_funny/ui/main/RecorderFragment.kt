@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.SetService
 import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
-import com.stevenpopovich.trying_to_be_funny.getNotGrantedPermissions
+import com.stevenpopovich.trying_to_be_funny.askForNotGrantedPermissions
 import com.stevenpopovich.trying_to_be_funny.ui.main.save_dialog_screens.OnFinishRecordingContainerFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
@@ -130,7 +130,7 @@ class RecorderFragment : Fragment() {
     }
 
     private fun getPermissions() {
-        getNotGrantedPermissions(context!!, activity!!,
+        askForNotGrantedPermissions(context!!, activity!!,
             listOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE))
     }
 
