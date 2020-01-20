@@ -155,5 +155,6 @@ class RecorderFragment : Fragment() {
             .setPositiveButton(R.string.okay) { _, _ ->
                 getNeededRecordingPermissions()
             }
+            .show()
     }
 }
