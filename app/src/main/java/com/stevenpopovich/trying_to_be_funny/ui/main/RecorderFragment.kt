@@ -41,7 +41,7 @@ class RecorderFragment : Fragment() {
 
         //TODO temporary for testing
         replay_first_recording.setOnClickListener {
-            val newService = SetServiceLocalSavingImpl(context!!)
+            val newService = SetServiceLocalSavingImpl(SetServiceLocalSavingImpl.getStandardDatabase(context!!))
             newService
                 .getAllSets()
                 .observeForever {
