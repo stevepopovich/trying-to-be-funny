@@ -55,4 +55,18 @@ class SetServiceTests {
 
         setService.saveStaticSet()
     }
+
+    @Test(expected = SetDataInvalidError::class)
+    fun testSaveStaticSetThrowsWhenSetLocationIsNull() {
+        SetService.setLocation = null
+
+        setService.saveStaticSet()
+    }
+
+    @Test(expected = SetDataInvalidError::class)
+    fun testSaveStaticSetThrowsWhenSetRecordingIdIsNull() {
+        SetService.setRecordingId = null
+
+        setService.saveStaticSet()
+    }
 }
