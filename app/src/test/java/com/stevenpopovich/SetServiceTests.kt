@@ -1,5 +1,6 @@
 package com.stevenpopovich
 
+import com.stevenpopovich.trying_to_be_funny.SetDataInvalidError
 import com.stevenpopovich.trying_to_be_funny.SetService
 import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
 import com.stevenpopovich.trying_to_be_funny.room.AppDatabase
@@ -30,5 +31,28 @@ class SetServiceTests {
         setService.deleteSet(idToDelete)
 
         verify(exactly = 1) { mockDatabase.setDao().deleteById(idToDelete) }
+    }
+
+    @Test
+    fun testGetAllBits() {
+        setService.getAllBits()
+
+        verify(exactly = 1) { mockDatabase.bitDao().getAll() }
+    }
+
+    @Test
+    fun testGetSet() {
+        val idToGet = UUID.randomUUID()
+
+        setService.getSet(idToGet)
+
+        verify(exactly = 1) { mockDatabase.setDao().get(idToGet) }
+    }
+
+    @Test(expected = SetDataInvalidError::class)
+    fun testSaveStaticSetThrowsWhenSetBitsIsNull() {
+        SetService.setBits = null
+
+        setService.saveStaticSet()
     }
 }
