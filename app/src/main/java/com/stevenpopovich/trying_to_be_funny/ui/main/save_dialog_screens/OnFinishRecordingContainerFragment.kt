@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.SetService
+import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
 import kotlinx.android.synthetic.main.on_finished_recording_container.*
 
 class OnFinishRecordingContainerFragment : DialogFragment() {
@@ -30,7 +31,7 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
 
         childFragmentManager
             .beginTransaction()
-            .replace(R.id.on_finished_recording_container, AddBitsFragment())
+            .replace(R.id.on_finished_recording_container, AddBitsFragment(SetServiceLocalSavingImpl(context!!)))
             .commit()
     }
 

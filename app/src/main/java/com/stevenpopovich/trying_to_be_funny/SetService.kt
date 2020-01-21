@@ -13,7 +13,7 @@ import java.util.*
 
 /**
  * This is class is responsible for managing StandUpSet data, but not the actual recording audio.
- * A "StandUpSet" is basically just the metadata about the content of the audio
+ * A "StandUpSet" is just the metadata about the content of the audio
  * A "StandUpSet" contains the path to the actual audio
  */
 interface SetService {

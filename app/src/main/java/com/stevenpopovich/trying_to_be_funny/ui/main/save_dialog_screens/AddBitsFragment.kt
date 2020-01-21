@@ -14,7 +14,9 @@ import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
 import com.stevenpopovich.trying_to_be_funny.hideKeyboardFrom
 import kotlinx.android.synthetic.main.add_bits.*
 
-class AddBitsFragment : Fragment() {
+class AddBitsFragment(
+    private val setService: SetService
+) : Fragment() {
     private lateinit var jokeStrings: List<String>
 
     private val bitsInTheSetForSaving = mutableListOf<String>()
@@ -74,7 +76,7 @@ class AddBitsFragment : Fragment() {
         next_button_on_add_bits.setOnClickListener {
             SetService.setBits = bitsInTheSetForSaving
 
-            goForwardsToFragment(fragmentManager!!, AddLocationFragment())
+            goForwardsToFragment(fragmentManager!!, AddLocationFragment(SetServiceLocalSavingImpl(context!!)))
         }
     }
 
@@ -146,7 +148,7 @@ class AddBitsFragment : Fragment() {
     }
 
     private fun setUpAddBitsAutocomplete() {
-        SetServiceLocalSavingImpl(context!!).getAllBits().observeForever {
+        setService.getAllBits().observeForever {
             val bits = it.map { it.bit }
             val adapter = ArrayAdapter(
                 context!!,
