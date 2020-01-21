@@ -31,7 +31,9 @@ class OnFinishRecordingContainerFragment : DialogFragment() {
 
         childFragmentManager
             .beginTransaction()
-            .replace(R.id.on_finished_recording_container, AddBitsFragment(SetServiceLocalSavingImpl(context!!)))
+            .replace(R.id.on_finished_recording_container, AddBitsFragment(
+                SetServiceLocalSavingImpl(SetServiceLocalSavingImpl.getStandardDatabase(context!!))
+            ))
             .commit()
     }
 

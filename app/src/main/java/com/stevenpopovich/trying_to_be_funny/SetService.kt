@@ -35,11 +35,15 @@ interface SetService {
     fun getAllBits(): LiveData<List<RoomBit>>
 }
 
-class SetServiceLocalSavingImpl(context: Context) : SetService {
-    private val database: AppDatabase = Room.databaseBuilder(
-        context,
-        AppDatabase::class.java, "room-trying-to-be-funny-database"
-    ).build()
+class SetServiceLocalSavingImpl(private val database: AppDatabase) : SetService {
+    companion object {
+        fun getStandardDatabase(context: Context): AppDatabase {
+            return Room.databaseBuilder(
+                context,
+                AppDatabase::class.java, "room-trying-to-be-funny-database"
+            ).build()
+        }
+    }
 
     override fun saveStaticSet() {
         validateStaticSet()

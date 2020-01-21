@@ -76,7 +76,9 @@ class AddBitsFragment(
         next_button_on_add_bits.setOnClickListener {
             SetService.setBits = bitsInTheSetForSaving
 
-            goForwardsToFragment(fragmentManager!!, AddLocationFragment(SetServiceLocalSavingImpl(context!!)))
+            goForwardsToFragment(fragmentManager!!, AddLocationFragment(
+                SetServiceLocalSavingImpl(SetServiceLocalSavingImpl.getStandardDatabase(context!!))
+            ))
         }
     }
 
