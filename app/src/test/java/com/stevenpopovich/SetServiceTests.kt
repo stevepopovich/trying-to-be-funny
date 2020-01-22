@@ -1,12 +1,16 @@
 package com.stevenpopovich
 
+import com.stevenpopovich.trying_to_be_funny.Place
 import com.stevenpopovich.trying_to_be_funny.SetDataInvalidError
 import com.stevenpopovich.trying_to_be_funny.SetService
 import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
 import com.stevenpopovich.trying_to_be_funny.room.AppDatabase
+import com.stevenpopovich.trying_to_be_funny.room.RoomPlace
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import java.util.*
@@ -53,20 +57,50 @@ class SetServiceTests {
     fun testSaveStaticSetThrowsWhenSetBitsIsNull() {
         SetService.setBits = null
 
-        setService.saveStaticSet()
+        runBlocking {
+            setService.saveStaticSetAsync().await()
+        }
     }
 
     @Test(expected = SetDataInvalidError::class)
     fun testSaveStaticSetThrowsWhenSetLocationIsNull() {
         SetService.setLocation = null
 
-        setService.saveStaticSet()
+        runBlocking {
+            setService.saveStaticSetAsync().await()
+        }
     }
 
     @Test(expected = SetDataInvalidError::class)
     fun testSaveStaticSetThrowsWhenSetRecordingIdIsNull() {
         SetService.setRecordingId = null
 
-        setService.saveStaticSet()
+        runBlocking {
+            setService.saveStaticSetAsync().await()
+        }
+    }
+
+    @Test
+    fun testSaveStaticSet() {
+        val bits = listOf("Funny how?")
+        val location = Place(UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        val recordingId = "It is over here"
+
+        SetService.setBits = bits
+        SetService.setLocation = location
+        SetService.setRecordingId = recordingId
+
+        runBlocking {
+            setService.saveStaticSetAsync().await()
+
+            delay(1000)
+
+            verify(exactly = 1) { mockDatabase.placeDao().insert(
+                RoomPlace(
+                    location.id,
+                    location.name
+                )
+            ) }
+        }
     }
 }

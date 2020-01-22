@@ -2,13 +2,15 @@ package com.stevenpopovich.trying_to_be_funny
 
 import android.arch.convert.toObservable
 import android.content.Context
-import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.stevenpopovich.trying_to_be_funny.SetService.Companion.clearStaticSet
 import com.stevenpopovich.trying_to_be_funny.room.*
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.util.*
 
 /**
@@ -28,7 +30,7 @@ interface SetService {
         }
     }
 
-    fun saveStaticSet()
+    suspend fun saveStaticSetAsync(): Deferred<Unit>
     fun getSet(setId: SetId): Observable<StandUpSet>
     fun querySets(date: Date?, bits: List<Bit>?, location: Place?): List<StandUpSet>
     fun deleteSet(setId: SetId)
@@ -45,12 +47,12 @@ class SetServiceLocalSavingImpl(private val database: AppDatabase) : SetService 
         }
     }
 
-    override fun saveStaticSet() {
+    override suspend fun saveStaticSetAsync(): Deferred<Unit> {
         validateStaticSet()
 
         val setId = SetId.randomUUID()
 
-        AsyncTask.execute {
+        return GlobalScope.async {
             database.placeDao().insert(
                 RoomPlace(
                     SetService.setLocation!!.id,

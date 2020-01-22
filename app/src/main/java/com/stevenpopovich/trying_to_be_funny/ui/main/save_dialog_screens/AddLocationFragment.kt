@@ -13,6 +13,7 @@ import com.stevenpopovich.trying_to_be_funny.R
 import com.stevenpopovich.trying_to_be_funny.SetService
 import com.stevenpopovich.trying_to_be_funny.toPlace
 import kotlinx.android.synthetic.main.add_location.*
+import kotlinx.coroutines.runBlocking
 
 class AddLocationFragment(
     private val setService: SetService
@@ -31,7 +32,9 @@ class AddLocationFragment(
         setUpLocationAutoCompleteFragment()
 
         save_set.setOnClickListener {
-            setService.saveStaticSet()
+            runBlocking {
+                setService.saveStaticSetAsync().await()
+            }
             parentFragment!!.fragmentManager!!.popBackStackImmediate()
         }
     }
