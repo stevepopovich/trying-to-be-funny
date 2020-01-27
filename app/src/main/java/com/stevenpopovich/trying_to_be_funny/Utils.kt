@@ -34,3 +34,9 @@ fun hasAllPermissions(context: Context, vararg permissions: String): Boolean {
 
     return true
 }
+
+data class PositiveFloat(val value: Float) {
+    init {
+        if (value < 0) throw Error("Tried to create a non-positive PositiveFloat")
+    }
+}

@@ -1,9 +1,6 @@
 package com.stevenpopovich
 
-import com.stevenpopovich.trying_to_be_funny.Place
-import com.stevenpopovich.trying_to_be_funny.SetDataInvalidError
-import com.stevenpopovich.trying_to_be_funny.SetService
-import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
+import com.stevenpopovich.trying_to_be_funny.*
 import com.stevenpopovich.trying_to_be_funny.room.AppDatabase
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -82,7 +79,7 @@ class SetServiceTests {
     fun testSaveStaticSet() {
         val bits = listOf("Funny how?")
         val location = Place(UUID.randomUUID().toString(), UUID.randomUUID().toString())
-        val recordingId = "It is over here"
+        val recordingId = "This is the location of the recording locally"
 
         SetService.setBits = bits
         SetService.setLocation = location
@@ -90,11 +87,19 @@ class SetServiceTests {
 
         runBlocking {
             setService.saveStaticSetAsync().await()
-            
+
             verify(exactly = 1) { mockDatabase.placeDao().insert(
                 withArg {
                     assert(it.name == location.name)
                     assert(it.placeId == location.id)
+                })
+            }
+
+            verify(exactly = 1) { mockDatabase.setDao().insert(
+                withArg {
+                    assert(it.placeId == location.id)
+                    assert(it.recordingId == recordingId)
+                    assert(it.date.isWithin(Date(), PositiveFloat(5f)))
                 })
             }
         }
