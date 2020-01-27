@@ -1,9 +1,6 @@
 package com.stevenpopovich
 
-import com.stevenpopovich.trying_to_be_funny.Place
-import com.stevenpopovich.trying_to_be_funny.SetDataInvalidError
-import com.stevenpopovich.trying_to_be_funny.SetService
-import com.stevenpopovich.trying_to_be_funny.SetServiceLocalSavingImpl
+import com.stevenpopovich.trying_to_be_funny.*
 import com.stevenpopovich.trying_to_be_funny.room.AppDatabase
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -88,8 +85,9 @@ class SetServiceTests {
         SetService.setLocation = location
         SetService.setRecordingId = recordingId
 
+        var setId: SetId? = null
         runBlocking {
-            setService.saveStaticSetAsync().await()
+            setId = setService.saveStaticSetAsync().await()
         }
 
         verify(exactly = 1) { mockDatabase.placeDao().insert(
@@ -104,6 +102,7 @@ class SetServiceTests {
                 assert(it.placeId == location.id)
                 assert(it.recordingId == recordingId)
                 assert(it.date.isPrettyMuchNow())
+                assert(it.id == setId)
             })
         }
 
@@ -117,7 +116,7 @@ class SetServiceTests {
             verify(exactly = 1) { mockDatabase.bitSetJoin().insert(
                 withArg {
                     assert(it.bit == expectedBit)
-                    //assert(it.setId == )
+                    assert(it.setId == setId)
                 }
             )}
         }

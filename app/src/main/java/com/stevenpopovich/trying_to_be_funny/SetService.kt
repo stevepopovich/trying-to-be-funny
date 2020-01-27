@@ -30,7 +30,7 @@ interface SetService {
         }
     }
 
-    suspend fun saveStaticSetAsync(): Deferred<Unit>
+    suspend fun saveStaticSetAsync(): Deferred<SetId>
     fun getSet(setId: SetId): Observable<StandUpSet>
     fun querySets(date: Date?, bits: List<Bit>?, location: Place?): List<StandUpSet>
     fun deleteSet(setId: SetId)
@@ -47,7 +47,7 @@ class SetServiceLocalSavingImpl(private val database: AppDatabase) : SetService 
         }
     }
 
-    override suspend fun saveStaticSetAsync(): Deferred<Unit> {
+    override suspend fun saveStaticSetAsync(): Deferred<SetId> {
         validateStaticSet()
 
         val setId = SetId.randomUUID()
@@ -85,6 +85,8 @@ class SetServiceLocalSavingImpl(private val database: AppDatabase) : SetService 
             }
 
             clearStaticSet()
+
+            return@async setId
         }
     }
 
