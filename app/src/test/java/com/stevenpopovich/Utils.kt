@@ -8,3 +8,7 @@ import kotlin.math.abs
 fun Date.isWithin(date: Date, timePlusMinusInSeconds: PositiveFloat): Boolean {
     return TimeUnit.MILLISECONDS.toSeconds(abs(this.time - date.time)) < timePlusMinusInSeconds.value;
 }
+
+fun Date.isPrettyMuchNow(): Boolean {
+    return this.isWithin(Date(), PositiveFloat(3f))
+}
