@@ -90,21 +90,40 @@ class SetServiceTests {
 
         runBlocking {
             setService.saveStaticSetAsync().await()
-
-            verify(exactly = 1) { mockDatabase.placeDao().insert(
-                withArg {
-                    assert(it.name == location.name)
-                    assert(it.placeId == location.id)
-                })
-            }
-
-            verify(exactly = 1) { mockDatabase.setDao().insert(
-                withArg {
-                    assert(it.placeId == location.id)
-                    assert(it.recordingId == recordingId)
-                    assert(it.date.isPrettyMuchNow())
-                })
-            }
         }
+
+        verify(exactly = 1) { mockDatabase.placeDao().insert(
+            withArg {
+                assert(it.name == location.name)
+                assert(it.placeId == location.id)
+            })
+        }
+
+        verify(exactly = 1) { mockDatabase.setDao().insert(
+            withArg {
+                assert(it.placeId == location.id)
+                assert(it.recordingId == recordingId)
+                assert(it.date.isPrettyMuchNow())
+            })
+        }
+
+        bits.forEach { expectedBit ->
+            verify(exactly = 1) { mockDatabase.bitDao().insert(
+                withArg {
+                    assert(it.bit == expectedBit)
+                }
+            )}
+
+            verify(exactly = 1) { mockDatabase.bitSetJoin().insert(
+                withArg {
+                    assert(it.bit == expectedBit)
+                    //assert(it.setId == )
+                }
+            )}
+        }
+
+        assert(SetService.setBits == null)
+        assert(SetService.setLocation == null)
+        assert(SetService.setRecordingId == null)
     }
 }
